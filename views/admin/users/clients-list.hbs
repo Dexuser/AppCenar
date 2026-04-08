@@ -1,0 +1,61 @@
+{{!-- views/admin/users/clients-list.hbs --}}
+<div class="container-fluid mt-4">
+    <div class="admin-card p-4 bg-white shadow-sm rounded-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-dark mb-0">
+                <i class="bi bi-people-fill icon-clients me-2"></i> Listado de Clientes
+            </h2>
+            <span class="badge bg-dark rounded-pill px-3 py-2">Total: {{clients.length}}</span>
+        </div>
+
+        {{#if hasClients}}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-4">Nombre</th>
+                        <th>Apellido</th>
+                        <th class="text-center">Pedidos</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each clients}}
+                    <tr>
+                        <td class="ps-4">{{this.firstName}}</td>
+                        <td>{{this.lastName}}</td>
+                        <td class="text-center">
+                            <span class="badge bg-info text-dark rounded-pill">
+                                {{this.orderCount}}
+                            </span>
+                        </td>
+                        <td>{{#if this.phone}}{{this.phone}}{{else}}---{{/if}}</td>
+                        <td>{{this.email}}</td>
+                        <td class="text-end pe-4">
+                            <form action="/admin/clients/toggle-status/{{this._id}}" method="POST" class="d-inline">
+                                {{#if this.isActive}}
+                                <button type="submit" class="btn btn-outline-danger btn-sm px-4 rounded-pill">
+                                    Inactivar
+                                </button>
+                                {{else}}
+                                <button type="submit" class="btn btn-success btn-sm px-4 rounded-pill">
+                                    Activar
+                                </button>
+                                {{/if}}
+                            </form>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        {{else}}
+        <div class="alert alert-light text-center py-5 border">
+            <i class="bi bi-person-exclamation fs-1 text-muted"></i>
+            <p class="mt-2 mb-0">No hay clientes con el rol correspondiente registrados.</p>
+        </div>
+        {{/if}}
+    </div>
+</div>

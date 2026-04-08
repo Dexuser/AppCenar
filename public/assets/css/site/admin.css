@@ -1,0 +1,40 @@
+/* public/assets/css/site/admin.css */
+
+/* Navbar mejorado */
+.navbar-admin {
+    background: linear-gradient(90deg, #1a1e21 0%, #2c3e50 100%);
+    padding: 0.8rem 1rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Colores llamativos para iconos */
+.icon-home { color: #0dcaf0 !important; font-size: 1.2rem; }
+.icon-clients { color: #ffc107 !important; font-size: 1.2rem; }
+.icon-delivery { color: #fd7e14 !important; font-size: 1.2rem; }
+.icon-commerce { color: #20c997 !important; font-size: 1.2rem; }
+.icon-config { color: #adb5bd !important; font-size: 1.2rem; }
+.icon-admin { color: #6610f2 !important; font-size: 1.2rem; }
+.icon-type { color: #d63384 !important; font-size: 1.2rem; }
+
+/* Botón de logout con estilo */
+.btn-logout {
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: all 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #dc3545;
+    color: white;
+}

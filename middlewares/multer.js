@@ -30,5 +30,17 @@ const imageStorageForProfileImage = multer.diskStorage({
   },
 });
 
+// Añade esto a tu multer.js
+const imageStorageForCommerceTypes = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(projectRoot, "public", "uploads", "images", "commerce-types"));
+  },
+  filename: (req, file, cb) => {
+    const fileName = `${guidV4()}-${file.originalname}`;
+    cb(null, fileName);
+  },
+});
+
+export const uploadCommerceTypeImage = multer({ storage: imageStorageForCommerceTypes }).single("image");
 export const uploadLogo = multer({ storage: imageStorageForLogoAssets }).single("logo");
 export const uploadProfilePicture = multer({ storage: imageStorageForProfileImage }).single("profilePicture"); 

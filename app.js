@@ -31,10 +31,12 @@ app.engine(
     defaultLayout: "main-layout",
     extname: "hbs",
     helpers: {
-      Equals: Equals, // Register the equals helper
-      section: GetSection, // Register the section helper
+      Equals: Equals,
+      section: GetSection,
+      // Añade este helper para comparaciones en las vistas
+      or: (a, b) => a || b,
     },
-    
+
   })
 );
 
@@ -59,34 +61,34 @@ app.use(
 app.use(flash()); // Initialize flash messages
 
 app.use((req, res, next) => {
-    // layout por defecto
-    let layout = 'anonymous-layout';
+  // layout por defecto
+  let layout = 'anonymous-layout';
 
-    if (req.session && req.session.user) {
-        switch(req.session.user.role) {
+  if (req.session && req.session.user) {
+    switch (req.session.user.role) {
 
-            case UserRoles.ADMIN:
-                layout = 'admin-layout';
-                break;
+      case UserRoles.ADMIN:
+        layout = 'admin-layout';
+        break;
 
-            case UserRoles.COMMERCE:
-                layout = 'commerce-layout';
-                break;
+      case UserRoles.COMMERCE:
+        layout = 'commerce-layout';
+        break;
 
-            case UserRoles.CLIENT:
-                layout = 'client-layout';
-                break;
-            case UserRoles.DELIVERY:
-                layout = 'delivery-layout';
-                break;
+      case UserRoles.CLIENT:
+        layout = 'client-layout';
+        break;
+      case UserRoles.DELIVERY:
+        layout = 'delivery-layout';
+        break;
 
-            default:
-                layout = 'anonymous-layout';
-        }
+      default:
+        layout = 'anonymous-layout';
     }
+  }
 
-    res.locals.layout = layout; // asigna layout automáticamente
-    next();
+  res.locals.layout = layout; // asigna layout automáticamente
+  next();
 });
 
 
