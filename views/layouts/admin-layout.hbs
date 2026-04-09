@@ -56,7 +56,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin/administrators">
+              <a class="nav-link" href="/admin/admins-management">
                 <i class="bi bi-person-badge-fill icon-admin"></i> Administradores
               </a>
             </li>
@@ -68,9 +68,13 @@
           </ul>
 
           <div class="d-flex align-items-center">
-            <span class="navbar-text me-3 small text-white-50 d-none d-xxl-block">
-              {{#if hasUser}}Admin: <strong>{{user.username}}</strong>{{/if}}
+            <span class="navbar-text me-3 small text-white">
+              {{#if isAuthenticated}} {{!-- Usamos la variable que defines en el login --}}
+              <i class="bi bi-person-circle me-1 text-info"></i>
+              Admin: <strong>{{user.firstName}} {{user.lastName}}</strong>
+              {{/if}}
             </span>
+
             <form action="/user/logout" method="GET" class="m-0">
               <button type="submit" class="btn btn-logout btn-sm">
                 <i class="bi bi-box-arrow-right"></i> Cerrar sesión
@@ -116,7 +120,13 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="/assets/js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {{{_sections.scripts}}}
+
+
+
+
+
 </body>
 
 </html>

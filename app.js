@@ -35,6 +35,7 @@ app.engine(
       section: GetSection,
       // Añade este helper para comparaciones en las vistas
       or: (a, b) => a || b,
+      add: (a, b) => a + b,
     },
 
   })

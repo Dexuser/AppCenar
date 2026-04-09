@@ -27,7 +27,7 @@ export const getCommerceTypes = async (req, res) => {
     }
 };
 
-// 2. PANTALLA DE CREACIÓN (Formulario)
+// 2. PANTALLA DE CREACIoN (Formulario)
 export const getCreateCommerceType = (req, res) => {
     res.render("admin/commerce-types/save-commerce-type", {
         pageTitle: "Crear Tipo de Comercio",
@@ -50,7 +50,7 @@ export const postCreateCommerceType = async (req, res) => {
     }
 };
 
-// 3. PANTALLA DE EDICIÓN (Formulario con valores cargados)
+// 3. PANTALLA DE EDICIoN (Formulario con valores cargados)
 export const getEditCommerceType = async (req, res) => {
     const { id } = req.params;
     try {
@@ -90,7 +90,7 @@ export const postEditCommerceType = async (req, res) => {
     }
 };
 
-// 4. PANTALLA DE ELIMINACIÓN 
+// 4. PANTALLA DE ELIMINACIoN 
 export const getDeleteConfirm = async (req, res) => {
     const { id } = req.params;
     try {

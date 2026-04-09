@@ -1,0 +1,74 @@
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-dark text-white rounded-top-4 py-3">
+                    <h4 class="mb-0 text-center">
+                        <i class="bi {{#if editMode}}bi-pencil-square{{else}}bi-person-plus-fill{{/if}} me-2"></i>
+                        {{pageTitle}}
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form action="/admin/admins-management/{{#if editMode}}edit{{else}}create{{/if}}" method="POST">
+
+                        {{#if editMode}}
+                        <input type="hidden" name="id" value="{{admin._id}}">
+                        {{/if}}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nombre</label>
+                                <input type="text" name="firstName" class="form-control" value="{{admin.firstName}}"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Apellido</label>
+                                <input type="text" name="lastName" class="form-control" value="{{admin.lastName}}"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Cédula</label>
+                                <input type="text" name="cedula" class="form-control" value="{{admin.cedula}}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nombre de Usuario</label>
+                                <input type="text" name="username" class="form-control" value="{{admin.username}}"
+                                    required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Correo Electrónico</label>
+                                <input type="email" name="email" class="form-control" value="{{admin.email}}" required>
+                            </div>
+
+                            <hr class="my-4">
+                            <p class="text-muted small">
+                                {{#if editMode}}Deje la contraseña en blanco si no desea cambiarla.{{else}}Asigne una
+                                contraseña inicial.{{/if}}
+                            </p>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Contraseña</label>
+                                <input type="password" name="password" class="form-control" {{#unless
+                                    editMode}}required{{/unless}}>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Confirmar Contraseña</label>
+                                <input type="password" name="confirmPassword" class="form-control" {{#unless
+                                    editMode}}required{{/unless}}>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="/admin/admins-management" class="btn btn-outline-secondary px-4 rounded-pill">
+                                <i class="bi bi-arrow-left me-1"></i> Volver al listado
+                            </a>
+                            <button type="submit" class="btn btn-dark px-5 rounded-pill">
+                                {{#if editMode}}Guardar Cambios{{else}}Crear Administrador{{/if}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

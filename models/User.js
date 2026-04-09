@@ -11,6 +11,12 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
+    cedula: {
+      type: String,
+      unique: true,
+      sparse: true
+    },
+
     username: {
       type: String,
       unique: true,
@@ -97,7 +103,7 @@ const userSchema = new mongoose.Schema(
     },
 
     // Delivery
-    isBusy: {type: Boolean, default: false} // si es true el dilevery esta ocupado, de lo contrario, NO ESTA OCUPADO
+    isBusy: { type: Boolean, default: false } // si es true el dilevery esta ocupado, de lo contrario, NO ESTA OCUPADO
 
 
   },

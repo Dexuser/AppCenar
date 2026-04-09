@@ -3,7 +3,7 @@ import { projectRoot } from "../utils/Paths.js";
 import path from "path";
 import { v4 as guidV4 } from "uuid";
 
-      
+
 let test;
 
 const imageStorageForLogoAssets = multer.diskStorage({

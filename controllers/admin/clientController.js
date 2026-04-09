@@ -10,7 +10,7 @@ export const getClientsList = async (req, res) => {
 
         // 2. Agregamos el conteo de pedidos para cada cliente
         const clients = await Promise.all(clientsData.map(async (client) => {
-            // Contamos cuántas órdenes tiene este cliente en la colección Orders
+            // Contamos cuantas ordenes tiene este cliente en la colección Orders
             const orderCount = await Order.countDocuments({ userId: client._id });
             return {
                 ...client,

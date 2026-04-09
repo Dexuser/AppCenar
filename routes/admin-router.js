@@ -3,16 +3,21 @@ import isAuth from "../middlewares/isAuth.js";
 import roleMiddleware from "../middlewares/roleMiddleware.js";
 import UserRoles from "../models/enums/userRoles.js";
 
-
-import { getHome } from "../controllers/admin/homeController.js";
-// Importación del nuevo controlador de mantenimientos
+// Importación de controladores
 import * as commerceTypeController from "../controllers/admin/commerceTypeController.js";
 import * as clientController from "../controllers/admin/clientController.js";
+import * as deliveryController from "../controllers/admin/deliveryController.js";
+import * as commerceController from "../controllers/admin/commerceController.js";
+import * as adminUserController from "../controllers/admin/adminUserController.js";
+import * as configController from "../controllers/admin/configController.js";
+import { getDashboard } from "../controllers/admin/homeController.js";
 
-// Middlewares de apoyo
+// Validaciones y Middlewares de apoyo
+import { validateAdminUser } from "./validations/adminUserValidation.js";
+import { handleValidationErrors } from "../middlewares/handleValidation.js"; // IMPORTACIÓN ÚNICA
 import { uploadCommerceTypeImage } from "../middlewares/multer.js";
 import { validateCommerceType } from "./validations/commerceTypeValidation.js";
-import { handleValidationErrors } from "../middlewares/handleValidation.js";
+import { validateConfig } from "./validations/configValidation.js";
 
 const adminRouter = express.Router();
 
@@ -21,14 +26,10 @@ adminRouter.use(isAuth);
 adminRouter.use(roleMiddleware(UserRoles.ADMIN));
 
 // --- Home ---
-adminRouter.get("/", getHome);
+adminRouter.get("/", getDashboard);
 
 // --- Mantenimiento de Tipo de Comercios ---
-
-// Pantalla inicial: Listado de tipos
 adminRouter.get("/commerce-types", commerceTypeController.getCommerceTypes);
-
-// Pantalla de creación: Formulario
 adminRouter.get("/commerce-types/create", commerceTypeController.getCreateCommerceType);
 adminRouter.post(
     "/commerce-types/create",
@@ -38,7 +39,6 @@ adminRouter.post(
     commerceTypeController.postCreateCommerceType
 );
 
-// Pantalla de edición: Formulario con valores cargados
 adminRouter.get("/commerce-types/edit/:id", commerceTypeController.getEditCommerceType);
 adminRouter.post(
     "/commerce-types/edit",
@@ -48,16 +48,53 @@ adminRouter.post(
     commerceTypeController.postEditCommerceType
 );
 
-// Pantalla de eliminación: Confirmación y Acción
 adminRouter.get("/commerce-types/delete/:id", commerceTypeController.getDeleteConfirm);
 adminRouter.post("/commerce-types/delete", commerceTypeController.postDeleteCommerceType);
 
 // --- Listado de Clientes ---
-
-// 1. Ruta para ver la tabla (GET)
 adminRouter.get("/clients", clientController.getClientsList);
-
-// 2. Ruta para el botón de activar/inactivar (POST)
 adminRouter.post("/clients/toggle-status/:id", clientController.postToggleClientStatus);
+
+// --- Listado de Delivery ---
+adminRouter.get("/delivery", deliveryController.getDeliveryList);
+adminRouter.post("/delivery/toggle-status/:id", deliveryController.postToggleDeliveryStatus);
+
+// --- Listado de Comercios ---
+adminRouter.get("/commerces", commerceController.getCommerceList);
+adminRouter.post("/commerces/toggle-status/:id", commerceController.postToggleCommerceStatus);
+
+// --- Mantenimiento de Usuarios Admin ---
+adminRouter.get("/admins-management", adminUserController.getAdminList);
+adminRouter.get("/admins-management/create", adminUserController.getSaveAdmin);
+adminRouter.post(
+    "/admins-management/create",
+    validateAdminUser,
+    handleValidationErrors("/admin/admins-management/create"), // Forzamos el regreso al formulario de crear
+    adminUserController.postSaveAdmin
+);
+
+adminRouter.get("/admins-management/edit/:id", adminUserController.getSaveAdmin);
+adminRouter.post(
+    "/admins-management/edit",
+    validateAdminUser,
+    handleValidationErrors((req) => `/admin/admins-management/edit/${req.body.id}`),
+    adminUserController.postSaveAdmin
+);
+
+adminRouter.post("/admins-management/toggle-status/:id", adminUserController.postToggleAdminStatus);
+
+
+// --- Mantenimiento de Configuración ---
+// Mantenimiento de Configuración
+adminRouter.get("/config", configController.getConfigHome);
+adminRouter.get("/config/edit", configController.getEditConfig);
+
+// Aplicamos la validación aquí
+adminRouter.post(
+    "/config/edit",
+    validateConfig,
+    handleValidationErrors("/admin/config/edit"), // Si falla, vuelve al formulario
+    configController.postEditConfig
+);
 
 export default adminRouter;
