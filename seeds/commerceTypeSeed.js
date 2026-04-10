@@ -4,14 +4,17 @@ const seedCommerceTypes = async () => {
     const commerceTypes = [
         {
             title: "Restaurantes",
+            description: "Restaurantes y comida preparada",
             image: "defaultNullImage"
         },
         {
             title: "Farmacias",
+            description: "Farmacias y productos de salud",
             image: "defaultNullImage"
         },
         {
             title: "Supermercados",
+            description: "Supermercados y productos de consumo diario",
             image: "defaultNullImage"
         }
     ];

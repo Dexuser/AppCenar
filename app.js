@@ -11,6 +11,7 @@ import { projectRoot } from "./utils/Paths.js";
 import authRoutes from "./routes/auth-router.js";
 import adminRouter from "./routes/admin-router.js";
 import clientRouter from "./routes/client-router.js";
+import customerRouter from "./routes/customer-router.js";
 import commerceRouter from "./routes/commerce-router.js";
 import deliveryRouter from "./routes/delivery-router.js";
 
@@ -127,6 +128,7 @@ app.use((req, res, next) => {
 app.use(authRoutes);
 app.use("/admin", adminRouter);
 app.use("/client", clientRouter);
+app.use("/customer", customerRouter);
 app.use("/commerce", commerceRouter);
 app.use("/delivery", deliveryRouter);
 
