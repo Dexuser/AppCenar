@@ -1,0 +1,55 @@
+<div class="container-fluid mt-2">
+  <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white shadow-sm rounded">
+    <div>
+      <a href="/client/home" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Volver
+      </a>
+      <h2 class="fw-bold mb-0 text-dark d-inline-block ms-3">Mis pedidos</h2>
+    </div>
+  </div>
+
+  {{#if hasOrders}}
+    <div class="row g-3">
+      {{#each orders}}
+        <div class="col-12">
+          <a href="/client/orders/{{_id}}" class="text-decoration-none">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <img 
+                      src="{{commerce.logo}}" 
+                      alt="{{commerce.businessName}}"
+                      style="width: 56px; height: 56px; object-fit: cover;"
+                      class="rounded-3 border"
+                    >
+                    <div>
+                      <div class="fw-bold text-dark">{{commerce.businessName}}</div>
+                      <div class="text-muted" style="font-size: 0.9rem;">{{createdAtFormatted}}</div>
+                      <div class="text-muted" style="font-size: 0.9rem;">{{productsCount}} productos</div>
+                    </div>
+                  </div>
+
+                  <div class="text-end">
+                    <div class="mb-2">
+                      <span class="badge {{stateBadgeClass}}">{{stateLabel}}</span>
+                    </div>
+                    <div class="fw-bold text-dark">RD$ {{total}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="bg-white shadow-sm rounded p-5 text-center">
+      <i class="bi bi-receipt text-muted display-1"></i>
+      <h4 class="mt-3 text-muted">No tienes pedidos todavía</h4>
+      <a href="/client/home" class="btn btn-primary mt-2">
+        <i class="bi bi-house-door me-1"></i> Ir al home
+      </a>
+    </div>
+  {{/if}}
+</div>

@@ -1,0 +1,54 @@
+<div class="container-fluid mt-2">
+  <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white shadow-sm rounded">
+    <div>
+      <a href="/client/orders" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Volver
+      </a>
+      <h2 class="fw-bold mb-0 text-dark d-inline-block ms-3">Detalle del pedido</h2>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-sm rounded p-3 mb-3">
+    <div class="d-flex justify-content-between align-items-start gap-3">
+      <div>
+        <div class="fw-bold">{{order.commerce.businessName}}</div>
+        <div class="text-muted">{{order.createdAtFormatted}}</div>
+      </div>
+      <div class="text-end">
+        <div class="mb-2">
+          <span class="badge {{order.stateBadgeClass}}">{{order.stateLabel}}</span>
+        </div>
+        <div class="fw-bold">Total: RD$ {{order.total}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-sm rounded p-3">
+    <h5 class="fw-bold mb-3">Productos ({{order.productsCount}})</h5>
+
+    {{#if hasProducts}}
+      <div class="row g-3">
+        {{#each order.products}}
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center border rounded p-2">
+              <div class="d-flex align-items-center gap-3">
+                <img 
+                  src="{{image}}" 
+                  alt="{{name}}"
+                  style="width: 56px; height: 56px; object-fit: cover;"
+                  class="rounded-3 border"
+                >
+                <div>
+                  <div class="fw-bold">{{name}}</div>
+                  <div class="text-muted">RD$ {{price}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="text-muted">Este pedido no tiene productos.</div>
+    {{/if}}
+  </div>
+</div>

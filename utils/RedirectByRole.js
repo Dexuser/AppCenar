@@ -6,7 +6,7 @@ export default function homeRouteByRole(user) {
         case UserRoles.ADMIN:
             return '/admin';
         case UserRoles.CLIENT:
-            return '/client';
+            return '/client/home';
         case UserRoles.COMMERCE:
             return '/commerce';
         case UserRoles.DELIVERY:

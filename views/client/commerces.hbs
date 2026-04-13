@@ -1,0 +1,91 @@
+<div class="container-fluid mt-2">
+  <!-- Header con botón volver -->
+  <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white shadow-sm rounded">
+    <div>
+      <a href="/client/home" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Volver
+      </a>
+      <h2 class="fw-bold mb-0 text-dark d-inline-block ms-3">{{categoryTitle}}</h2>
+    </div>
+    <div class="text-muted">
+      <small>{{totalCount}} comercios disponibles</small>
+    </div>
+  </div>
+
+  <!-- Buscador -->
+  <div class="bg-white shadow-sm rounded p-3 mb-4">
+    <form method="GET" action="/client/commerces" class="d-flex gap-2">
+      <input type="hidden" name="typeId" value="{{selectedTypeId}}">
+      <div class="flex-grow-1">
+        <input 
+          type="text" 
+          name="q" 
+          class="form-control" 
+          placeholder="Buscar comercios por nombre..."
+          value="{{searchQuery}}"
+        >
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-search me-1"></i> Buscar
+      </button>
+    </form>
+  </div>
+
+  <!-- Listado de comercios -->
+  {{#if hasCommerces}}
+    <div class="row g-3">
+      {{#each commerces}}
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <!-- Logo del comercio -->
+              <div class="text-center mb-3">
+                <img 
+                  src="{{commerceLogo}}" 
+                  alt="{{commerceName}}"
+                  class="rounded-3"
+                  style="width: 80px; height: 80px; object-fit: cover;"
+                >
+              </div>
+              
+              <!-- Nombre del comercio -->
+              <h5 class="card-title text-center fw-bold">{{commerceName}}</h5>
+              
+              <!-- Botones -->
+              <div class="d-flex gap-2 mt-3">
+                <!-- Botón favorito -->
+                <form method="POST" action="/client/favorite/{{_id}}" class="flex-grow-1">
+                  <button type="submit" class="btn w-100 {{#if isFavorite}}btn-danger{{else}}btn-outline-danger{{/if}}">
+                    <i class="bi bi-heart{{#unless isFavorite}}-empty{{/unless}} me-1"></i>
+                    {{#if isFavorite}}Quitar{{else}}Favorito{{/if}}
+                  </button>
+                </form>
+                
+                <!-- Botón ver catálogo -->
+                <a href="/client/catalog/{{_id}}" class="btn btn-primary flex-grow-1">
+                  <i class="bi bi-shop me-1"></i> Ver
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="text-center py-5 bg-white rounded shadow-sm">
+      <i class="bi bi-shop text-muted display-1"></i>
+      <h4 class="mt-3 text-muted">
+        {{#if searchQuery}}
+          No se encontraron comercios con "{{searchQuery}}"
+        {{else}}
+          No hay comercios disponibles en esta categoría
+        {{/if}}
+      </h4>
+      {{#if searchQuery}}
+        <a href="/client/commerces?typeId={{selectedTypeId}}" class="btn btn-outline-primary mt-2">
+          <i class="bi bi-arrow-clockwise me-1"></i> Limpiar búsqueda
+        </a>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>
