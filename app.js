@@ -31,11 +31,15 @@ app.engine(
     defaultLayout: "main-layout",
     extname: "hbs",
     helpers: {
-      Equals: Equals,
-      section: GetSection,
-      // Añade este helper para comparaciones en las vistas
-      or: (a, b) => a || b,
-      add: (a, b) => a + b,
+      Equals: Equals, // Register the equals helper
+      section: GetSection, // Register the section helper
+      // En app.js dentro de helpers
+      eq: function (a, b) {
+        if (a === undefined || a === null || b === undefined || b === null) {
+          return false;
+        }
+        return a.toString() === b.toString();
+      },
     },
 
   })

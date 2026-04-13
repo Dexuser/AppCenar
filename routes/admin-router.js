@@ -85,11 +85,10 @@ adminRouter.post("/admins-management/toggle-status/:id", adminUserController.pos
 
 
 // --- Mantenimiento de Configuración ---
-// Mantenimiento de Configuración
 adminRouter.get("/config", configController.getConfigHome);
 adminRouter.get("/config/edit", configController.getEditConfig);
 
-// Aplicamos la validación aquí
+
 adminRouter.post(
     "/config/edit",
     validateConfig,

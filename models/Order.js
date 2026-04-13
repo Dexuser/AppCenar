@@ -49,14 +49,14 @@ const orderSchema = new mongoose.Schema(
     },
 
     address: {
-        title: {
-            type: String,
-            required: true
-        },
-        description: {
-          type: String,
-          required: true
-        }
+      title: {
+        type: String,
+        required: true
+      },
+      description: {
+        type: String,
+        required: true
+      }
     },
 
     commerce: {
@@ -73,6 +73,18 @@ const orderSchema = new mongoose.Schema(
         type: String
       }
     },
+
+    delivery: {
+      deliveryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null
+      },
+      firstName: { type: String, default: null },
+      lastName: { type: String, default: null },
+      phone: { type: String, default: null }
+    },
+
 
     subtotal: {
       type: Number,
@@ -91,6 +103,8 @@ const orderSchema = new mongoose.Schema(
       required: true,
       min: 0
     },
+
+
 
     state: {
       type: String,

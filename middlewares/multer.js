@@ -41,6 +41,21 @@ const imageStorageForCommerceTypes = multer.diskStorage({
   },
 });
 
+// Configuración para Productos
+const productStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Usamos path.join para evitar errores de ruta
+    cb(null, path.join(projectRoot, "public", "uploads", "images", "commerce-products"));
+  },
+  filename: (req, file, cb) => {
+    // Usamos guidV4 para mantener la consistencia con tus otros storages
+    const fileName = `${guidV4()}-${file.originalname}`;
+    cb(null, fileName);
+  },
+});
+
+
+export const uploadProductImage = multer({ storage: productStorage });
 export const uploadCommerceTypeImage = multer({ storage: imageStorageForCommerceTypes }).single("image");
 export const uploadLogo = multer({ storage: imageStorageForLogoAssets }).single("logo");
 export const uploadProfilePicture = multer({ storage: imageStorageForProfileImage }).single("profilePicture"); 
