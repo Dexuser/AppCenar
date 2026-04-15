@@ -25,12 +25,18 @@ export async function getCreateAddress(req, res) {
 
 export async function postCreateAddress(req, res) {
     try {
-        const { title, description } = req.body;
+        const { label, street, sector, city, reference } = req.body;
 
         await Address.create({
             userId: req.session.user.id,
-            title,
-            description
+            label,
+            street,
+            sector,
+            city,
+            reference,
+            // Legacy fields for backward compatibility
+            title: label,
+            description: reference
         });
 
         req.flash("success", "Dirección creada correctamente");
@@ -72,7 +78,7 @@ export async function getEditAddress(req, res) {
 export async function postEditAddress(req, res) {
     try {
         const { addressId } = req.params;
-        const { title, description } = req.body;
+        const { label, street, sector, city, reference } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(addressId)) {
             req.flash("errors", "Dirección inválida");
@@ -81,7 +87,16 @@ export async function postEditAddress(req, res) {
 
         const updated = await Address.findOneAndUpdate(
             { _id: addressId, userId: req.session.user.id },
-            { title, description },
+            {
+                label,
+                street,
+                sector,
+                city,
+                reference,
+                // Legacy fields for backward compatibility
+                title: label,
+                description: reference
+            },
             { new: true }
         );
 

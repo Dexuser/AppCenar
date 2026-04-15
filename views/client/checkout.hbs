@@ -17,10 +17,11 @@
           <form method="POST" action="/client/checkout">
             {{#each addresses}}
               <div class="form-check border rounded p-3 mb-2">
-                <input class="form-check-input" type="radio" name="addressId" id="addr-{{_id}}" value="{{_id}}">
+                <input class="form-check-input" type="radio" name="addressId" id="addr-{{_id}}" value="{{_id}}" required>
                 <label class="form-check-label" for="addr-{{_id}}">
-                  <div class="fw-bold">{{title}}</div>
-                  <div class="text-muted">{{description}}</div>
+                  <div class="fw-bold">{{label}}</div>
+                  <div class="text-muted">{{street}}, {{sector}}, {{city}}</div>
+                  <div class="text-muted small">{{reference}}</div>
                 </label>
               </div>
             {{/each}}
@@ -45,9 +46,9 @@
         <h5 class="fw-bold mb-3">Resumen</h5>
 
         <div class="d-flex align-items-center gap-2 mb-3">
-          <img src="{{commerce.commerceLogo}}" alt="{{commerce.commerceName}}" style="width: 44px; height: 44px; object-fit: cover;" class="rounded-3 border">
+          <img src="{{commerce.commerceLogo}}" alt="{{commerce.name}}" style="width: 44px; height: 44px; object-fit: cover;" class="rounded-3 border">
           <div>
-            <div class="fw-bold">{{commerce.commerceName}}</div>
+            <div class="fw-bold">{{commerce.name}}</div>
             <small class="text-muted">Comercio</small>
           </div>
         </div>
@@ -67,8 +68,8 @@
             <div class="fw-bold">RD$ {{subtotal}}</div>
           </div>
           <div class="d-flex justify-content-between mb-2">
-            <div class="text-muted">ITBIS ({{itebis}}%)</div>
-            <div class="fw-bold">{{!-- se calcula en backend dentro del total --}}</div>
+            <div class="text-muted">ITBIS ({{itbisPercentage}}%)</div>
+            <div class="fw-bold">RD$ {{itbisAmount}}</div>
           </div>
           <div class="d-flex justify-content-between">
             <div class="fw-bold">Total</div>

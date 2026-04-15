@@ -11,12 +11,12 @@
   <div class="bg-white shadow-sm rounded p-3 mb-3">
     <div class="d-flex justify-content-between align-items-start gap-3">
       <div>
-        <div class="fw-bold">{{order.commerce.businessName}}</div>
+        <div class="fw-bold">{{order.commerce.name}}</div>
         <div class="text-muted">{{order.createdAtFormatted}}</div>
       </div>
       <div class="text-end">
         <div class="mb-2">
-          <span class="badge {{order.stateBadgeClass}}">{{order.stateLabel}}</span>
+          <span class="badge {{order.statusBadgeClass}}">{{order.statusLabel}}</span>
         </div>
         <div class="fw-bold">Total: RD$ {{order.total}}</div>
       </div>
@@ -24,11 +24,11 @@
   </div>
 
   <div class="bg-white shadow-sm rounded p-3">
-    <h5 class="fw-bold mb-3">Productos ({{order.productsCount}})</h5>
+    <h5 class="fw-bold mb-3">Productos ({{order.itemsCount}})</h5>
 
-    {{#if hasProducts}}
+    {{#if hasItems}}
       <div class="row g-3">
-        {{#each order.products}}
+        {{#each order.items}}
           <div class="col-12">
             <div class="d-flex justify-content-between align-items-center border rounded p-2">
               <div class="d-flex align-items-center gap-3">
@@ -40,7 +40,8 @@
                 >
                 <div>
                   <div class="fw-bold">{{name}}</div>
-                  <div class="text-muted">RD$ {{price}}</div>
+                  <div class="text-muted">RD$ {{price}} x {{quantity}}</div>
+                  <div class="fw-bold">RD$ {{lineTotal}}</div>
                 </div>
               </div>
             </div>

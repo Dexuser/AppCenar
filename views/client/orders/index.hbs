@@ -19,20 +19,20 @@
                   <div class="d-flex align-items-center gap-3">
                     <img 
                       src="{{commerce.logo}}" 
-                      alt="{{commerce.businessName}}"
+                      alt="{{commerce.name}}"
                       style="width: 56px; height: 56px; object-fit: cover;"
                       class="rounded-3 border"
                     >
                     <div>
-                      <div class="fw-bold text-dark">{{commerce.businessName}}</div>
+                      <div class="fw-bold text-dark">{{commerce.name}}</div>
                       <div class="text-muted" style="font-size: 0.9rem;">{{createdAtFormatted}}</div>
-                      <div class="text-muted" style="font-size: 0.9rem;">{{productsCount}} productos</div>
+                      <div class="text-muted" style="font-size: 0.9rem;">{{itemsCount}} productos</div>
                     </div>
                   </div>
 
                   <div class="text-end">
                     <div class="mb-2">
-                      <span class="badge {{stateBadgeClass}}">{{stateLabel}}</span>
+                      <span class="badge {{statusBadgeClass}}">{{statusLabel}}</span>
                     </div>
                     <div class="fw-bold text-dark">RD$ {{total}}</div>
                   </div>

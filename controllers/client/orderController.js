@@ -9,8 +9,8 @@ function formatDate(date) {
     }
 }
 
-function stateLabel(state) {
-    switch (state) {
+function statusLabel(status) {
+    switch (status) {
         case "pending":
             return "Pendiente";
         case "in_progress":
@@ -18,12 +18,12 @@ function stateLabel(state) {
         case "complete":
             return "Completado";
         default:
-            return state;
+            return status;
     }
 }
 
-function stateBadgeClass(state) {
-    switch (state) {
+function statusBadgeClass(status) {
+    switch (status) {
         case "pending":
             return "bg-warning text-dark";
         case "in_progress":
@@ -43,10 +43,10 @@ export async function getOrders(req, res) {
 
         const mapped = orders.map(o => ({
             ...o,
-            productsCount: (o.products || []).length,
+            itemsCount: (o.items || []).length,
             createdAtFormatted: formatDate(o.createdAt),
-            stateLabel: stateLabel(o.state),
-            stateBadgeClass: stateBadgeClass(o.state)
+            statusLabel: statusLabel(o.status),
+            statusBadgeClass: statusBadgeClass(o.status)
         }));
 
         return res.render("client/orders/index", {
@@ -79,16 +79,16 @@ export async function getOrderDetail(req, res) {
 
         const viewModel = {
             ...order,
-            productsCount: (order.products || []).length,
+            itemsCount: (order.items || []).length,
             createdAtFormatted: formatDate(order.createdAt),
-            stateLabel: stateLabel(order.state),
-            stateBadgeClass: stateBadgeClass(order.state)
+            statusLabel: statusLabel(order.status),
+            statusBadgeClass: statusBadgeClass(order.status)
         };
 
         return res.render("client/orders/detail", {
             "page-title": "Detalle del pedido",
             order: viewModel,
-            hasProducts: (order.products || []).length > 0
+            hasItems: (order.items || []).length > 0
         });
     } catch (error) {
         console.error("Error loading order detail:", error);

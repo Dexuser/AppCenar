@@ -8,9 +8,13 @@ function getCart(req) {
     return req.session.cart || { commerceId: null, items: [], subtotal: 0 };
 }
 
-function calcTotal(subtotal, itebis) {
-    const rate = (itebis || 0) / 100;
-    return (subtotal * rate) + subtotal;
+function calcItbis(subtotal, itbisPercentage) {
+    const rate = (itbisPercentage || 0) / 100;
+    return Math.round(subtotal * rate * 100) / 100;
+}
+
+function calcTotal(subtotal, itbisAmount) {
+    return subtotal + itbisAmount;
 }
 
 export async function getCheckout(req, res) {
@@ -28,15 +32,23 @@ export async function getCheckout(req, res) {
             User.findOne({ _id: cart.commerceId, role: "commerce" }).select("commerceName commerceLogo").lean()
         ]);
 
-        const itebis = config?.itebis ?? 18;
+        // Support both legacy itebis field and new key/value config
+        let itbisPercentage = 18;
+        if (config?.key === "ITBIS" && config?.value) {
+            itbisPercentage = Number(config.value) || 18;
+        } else if (config?.itebis != null) {
+            itbisPercentage = config.itebis;
+        }
         const subtotal = cart.subtotal || 0;
-        const total = calcTotal(subtotal, itebis);
+        const itbisAmount = calcItbis(subtotal, itbisPercentage);
+        const total = calcTotal(subtotal, itbisAmount);
 
         return res.render("client/checkout", {
             "page-title": "Checkout",
             addresses,
             hasAddresses: addresses.length > 0,
-            itebis,
+            itbisPercentage,
+            itbisAmount,
             subtotal,
             total,
             cart,
@@ -81,16 +93,25 @@ export async function postCheckout(req, res) {
             return res.redirect("/client/home");
         }
 
-        const itebis = config?.itebis ?? 18;
+        // Support both legacy itebis field and new key/value config
+        let itbisPercentage = 18;
+        if (config?.key === "ITBIS" && config?.value) {
+            itbisPercentage = Number(config.value) || 18;
+        } else if (config?.itebis != null) {
+            itbisPercentage = config.itebis;
+        }
         const subtotal = cart.subtotal || 0;
-        const total = calcTotal(subtotal, itebis);
+        const itbisAmount = calcItbis(subtotal, itbisPercentage);
+        const total = calcTotal(subtotal, itbisAmount);
 
         await Order.create({
-            products: cart.items.map(p => ({
+            items: cart.items.map(p => ({
                 productId: p.productId,
                 name: p.name,
                 image: p.image,
-                price: p.price
+                price: p.price,
+                quantity: 1,
+                lineTotal: p.price
             })),
             client: {
                 userId: req.session.user.id,
@@ -99,17 +120,23 @@ export async function postCheckout(req, res) {
                 email: req.session.user.email,
                 phone: req.session.user.phone
             },
+            addressId: address._id,
             address: {
-                title: address.title,
-                description: address.description
+                label: address.label || address.title || "Dirección",
+                street: address.street || "",
+                sector: address.sector || "",
+                city: address.city || "",
+                reference: address.reference || address.description || ""
             },
             commerce: {
                 commerceId: cart.commerceId,
-                businessName: commerce.commerceName,
-                logo: commerce.commerceLogo
+                name: commerce.commerceName,
+                logo: commerce.commerceLogo,
+                phone: commerce.phone || null
             },
             subtotal,
-            itebis,
+            itbisPercentage,
+            itbisAmount,
             total
         });
 

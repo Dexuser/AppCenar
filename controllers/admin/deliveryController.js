@@ -8,8 +8,8 @@ export const getDeliveryList = async (req, res) => {
 
         // Mapeamos para obtener la cantidad de pedidos entregados por cada uno
         const deliveries = await Promise.all(deliveryData.map(async (delivery) => {
-            // Contamos los documentos en la colección Order donde el deliveryId coincida
-            const deliveredCount = await Order.countDocuments({ deliveryId: delivery._id });
+            // Contamos los documentos en la colección Order donde el delivery.userId coincida
+            const deliveredCount = await Order.countDocuments({ "delivery.userId": delivery._id });
 
             return {
                 ...delivery,

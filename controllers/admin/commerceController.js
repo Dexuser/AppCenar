@@ -11,8 +11,8 @@ export const getCommerceList = async (req, res) => {
 
         // 2. Mapeamos para contar los pedidos de cada comercio
         const commerces = await Promise.all(commerceData.map(async (commerce) => {
-            // Contamos órdenes donde el commerceId coincida con el ID del usuario
-            const orderCount = await Order.countDocuments({ commerceId: commerce._id });
+            // Contamos órdenes donde el commerce.commerceId coincida con el ID del usuario
+            const orderCount = await Order.countDocuments({ "commerce.commerceId": commerce._id });
 
             return {
                 ...commerce,

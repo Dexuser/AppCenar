@@ -11,13 +11,28 @@
   <div class="bg-white shadow-sm rounded p-3">
     <form method="POST" action="/client/addresses/{{address._id}}/edit">
       <div class="mb-3">
-        <label class="form-label">Nombre de la dirección</label>
-        <input type="text" name="title" class="form-control" value="{{address.title}}" required>
+        <label class="form-label">Nombre de la dirección (ej: Casa, Trabajo)</label>
+        <input type="text" name="label" class="form-control" value="{{address.label}}" required>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Descripción</label>
-        <textarea name="description" class="form-control" rows="3" required>{{address.description}}</textarea>
+        <label class="form-label">Calle</label>
+        <input type="text" name="street" class="form-control" value="{{address.street}}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Sector</label>
+        <input type="text" name="sector" class="form-control" value="{{address.sector}}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Ciudad</label>
+        <input type="text" name="city" class="form-control" value="{{address.city}}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Referencia / Descripción adicional</label>
+        <textarea name="reference" class="form-control" rows="3" required>{{address.reference}}</textarea>
       </div>
 
       <div class="d-flex gap-2">
