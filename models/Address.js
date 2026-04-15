@@ -3,25 +3,42 @@ import mongoose from "mongoose";
 const addressSchema = new mongoose.Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId, // Use ObjectId for MongoDB references
-      ref: "User", // Reference to the Users model
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true
     },
-    title: {
+
+    label: {
       type: String,
       required: true
     },
-    description: {
+
+    street: {
       type: String,
       required: true
-    }
+    },
+
+    sector: {
+      type: String,
+      required: true
+    },
+
+    city: {
+      type: String,
+      required: true
+    },
+
+    reference: {
+      type: String,
+      required: true
+    },
   },
   {
-    timestamps: true, // Automatically manage createdAt and updatedAt fields
-    collection: 'Adresses' // Specify the collection name, is equivalent to table name in SQL
+    timestamps: true,
+    collection: "Adresses"
   }
 );
 
-const Address = mongoose.model("Adress", addressSchema); // Create the model from the schema
+const Address = mongoose.model("Address", addressSchema);
 
 export default Address;

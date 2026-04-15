@@ -33,7 +33,7 @@ export const validateAssignDelivery = [
 
             // Verificamos que el pedido esté PENDIENTE
             // No podemos asignar delivery a algo ya completado o en proceso
-            if (order.state !== orderStatus.PENDING) {
+            if (order.status !== orderStatus.PENDING) {
                 return res.status(400).send("Este pedido ya ha sido procesado o no está pendiente.");
             }
 
