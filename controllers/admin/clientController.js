@@ -10,8 +10,9 @@ export const getClientsList = async (req, res) => {
 
         // 2. Agregamos el conteo de pedidos para cada cliente
         const clients = await Promise.all(clientsData.map(async (client) => {
-            // Contamos cuantas ordenes tiene este cliente en la colección Orders
-            const orderCount = await Order.countDocuments({ userId: client._id });
+            // CORRECCIÓN: Usamos el path "client.userId" como define el esquema de Order
+            const orderCount = await Order.countDocuments({ "client.userId": client._id });
+
             return {
                 ...client,
                 orderCount
@@ -38,6 +39,8 @@ export const postToggleClientStatus = async (req, res) => {
         user.isActive = !user.isActive;
         await user.save();
 
+        // Usamos el estándar de éxito que configuramos con el equipo
+        req.flash("success", `Cliente ${user.isActive ? 'activado' : 'inactivado'} correctamente.`);
         res.redirect("/admin/clients");
     } catch (error) {
         console.error("Error al cambiar estado:", error);

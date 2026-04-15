@@ -65,22 +65,27 @@ adminRouter.post("/commerces/toggle-status/:id", commerceController.postToggleCo
 
 // --- Mantenimiento de Usuarios Admin ---
 adminRouter.get("/admins-management", adminUserController.getAdminList);
+
+// CREAR
 adminRouter.get("/admins-management/create", adminUserController.getSaveAdmin);
 adminRouter.post(
     "/admins-management/create",
     validateAdminUser,
-    handleValidationErrors("/admin/admins-management/create"), // Forzamos el regreso al formulario de crear
+    // El middleware de errores debe manejar el flash y redirigir
+    handleValidationErrors("/admin/admins-management/create"),
     adminUserController.postSaveAdmin
 );
 
+// EDITAR
 adminRouter.get("/admins-management/edit/:id", adminUserController.getSaveAdmin);
 adminRouter.post(
-    "/admins-management/edit",
+    "/admins-management/edit", // Agregamos el :id aquí para mayor claridad, aunque lo mandes por body
     validateAdminUser,
-    handleValidationErrors((req) => `/admin/admins-management/edit/${req.body.id}`),
+    handleValidationErrors((req) => `/admin/admins-management/edit/${req.params.id || req.body.id}`),
     adminUserController.postSaveAdmin
 );
 
+// ESTADO
 adminRouter.post("/admins-management/toggle-status/:id", adminUserController.postToggleAdminStatus);
 
 

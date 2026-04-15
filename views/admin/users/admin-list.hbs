@@ -1,56 +1,104 @@
 <div class="container-fluid mt-4">
+    {{!-- TARJETA PRINCIPAL --}}
     <div class="admin-card p-4 bg-white shadow-sm rounded-4 border-top border-4 border-dark">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold"><i class="bi bi-shield-lock-fill me-2"></i> Administradores</h2>
-            <a href="/admin/admins-management/create" class="btn btn-dark rounded-pill px-4">Crear Administrador</a>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <div>
+                <h2 class="fw-bold mb-0"><i class="bi bi-shield-lock-fill me-2 text-dark"></i> Administradores</h2>
+                <p class="text-muted small mb-0">Gestión de accesos y personal administrativo del sistema.</p>
+            </div>
+            <a href="/admin/admins-management/create" class="btn btn-dark rounded-pill px-4 shadow-sm">
+                <i class="bi bi-person-plus-fill me-2"></i> Nuevo Administrador
+            </a>
         </div>
 
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>Nombre Completo</th>
-                        <th>Cédula</th>
-                        <th>Usuario</th>
-                        <th>Correo</th>
-                        <th class="text-end">Acciones</th>
+                        <th class="py-3">Nombre Completo</th>
+                        <th class="py-3">Cédula</th>
+                        <th class="py-3">Usuario</th>
+                        <th class="py-3">Correo</th>
+                        <th class="py-3 text-center">Estado</th>
+                        <th class="py-3 text-end">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{#if hasAdmins}}
                     {{#each admins}}
                     <tr>
-                        <td>{{this.firstName}} {{this.lastName}}</td>
-                        <td>{{this.cedula}}</td>
-                        <td><span class="badge bg-secondary">{{this.username}}</span></td>
+                        <td>
+                            <div class="fw-bold text-dark">{{this.firstName}} {{this.lastName}}</div>
+                            {{#if this.isDefaultAdmin}}
+                            <small class="badge bg-dark-subtle text-dark border border-dark-subtle"
+                                style="font-size: 0.65rem;">SISTEMA</small>
+                            {{/if}}
+                        </td>
+                        <td>
+                            <span class="font-monospace text-muted">{{#if
+                                this.cedula}}{{this.cedula}}{{else}}---{{/if}}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="badge bg-secondary-subtle text-secondary px-3 rounded-pill border">{{this.username}}</span>
+                        </td>
                         <td>{{this.email}}</td>
+                        <td class="text-center">
+                            {{#if this.isActive}}
+                            <span class="badge bg-success-subtle text-success rounded-pill px-3">Activo</span>
+                            {{else}}
+                            <span class="badge bg-danger-subtle text-danger rounded-pill px-3">Inactivo</span>
+                            {{/if}}
+                        </td>
                         <td class="text-end">
                             {{#if this.isCurrentUser}}
-                            <span class="badge bg-info-subtle text-info">Tú (Sesión activa)</span>
+                            <span class="badge bg-info-subtle text-info p-2 px-3">
+                                <i class="bi bi-person-check-fill me-1"></i> Mi Sesión
+                            </span>
                             {{else}}
-                            <a href="/admin/admins-management/edit/{{this._id}}"
-                                class="btn btn-sm btn-outline-warning rounded-pill px-3">Editar</a>
+                            {{!-- Solo permitimos editar si NO es el admin por defecto del sistema --}}
+                            {{#if this.canBeManaged}}
+                            <div class="btn-group">
+                                <a href="/admin/admins-management/edit/{{this._id}}"
+                                    class="btn btn-sm btn-outline-warning rounded-start-pill px-3" title="Editar datos">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
 
-                            <form action="/admin/admins-management/toggle-status/{{this._id}}" method="POST"
-                                class="d-inline form-toggle-status"> <button type="button"
-                                    class="btn btn-sm {{#if this.isActive}}btn-outline-danger{{else}}btn-success{{/if}} rounded-pill px-3 btn-toggle"
-                                    data-action="{{#if this.isActive}}inactivar{{else}}activar{{/if}}"> {{#if
-                                    this.isActive}}Inactivar{{else}}Activar{{/if}}
-                                </button>
-                            </form>
+                                <form action="/admin/admins-management/toggle-status/{{this._id}}" method="POST"
+                                    class="d-inline form-toggle-status">
+                                    <button type="button"
+                                        class="btn btn-sm {{#if this.isActive}}btn-outline-danger{{else}}btn-success{{/if}} rounded-end-pill px-3 btn-toggle"
+                                        data-action="{{#if this.isActive}}inactivar{{else}}activar{{/if}}"
+                                        title="{{#if this.isActive}}Desactivar{{else}}Activar{{/if}}">
+                                        <i
+                                            class="bi {{#if this.isActive}}bi-person-x-fill{{else}}bi-person-check-fill{{/if}}"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            {{else}}
+                            <i class="bi bi-lock-fill text-muted" title="Protegido por el sistema"></i>
+                            {{/if}}
                             {{/if}}
                         </td>
                     </tr>
                     {{/each}}
+                    {{else}}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="bi bi-people fs-1 text-light"></i>
+                            <p class="text-muted mt-2">No se encontraron administradores registrados.</p>
+                        </td>
+                    </tr>
+                    {{/if}}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-
+{{!-- SCRIPTS --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Seleccionamos todos los botones de activar/inactivar
         const toggleButtons = document.querySelectorAll('.btn-toggle');
 
         toggleButtons.forEach(button => {
@@ -58,21 +106,21 @@
                 const action = this.getAttribute('data-action');
                 const form = this.closest('.form-toggle-status');
 
-                // Aquí lanzamos la caja linda
                 Swal.fire({
-                    title: `¿Estás seguro?`,
-                    text: `¿Realmente deseas ${action} a este administrador?`,
-                    icon: 'warning',
+                    title: `<span class="fw-bold">¿${action.toUpperCase()} administrador?</span>`,
+                    text: `Esta acción cambiará el acceso de este usuario al sistema.`,
+                    icon: action === 'inactivar' ? 'error' : 'question',
                     showCancelButton: true,
-                    confirmButtonColor: action === 'inactivar' ? '#d33' : '#198754',
+                    confirmButtonColor: action === 'inactivar' ? '#dc3545' : '#198754',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Sí, continuar',
+                    confirmButtonText: action === 'inactivar' ? 'Sí, desactivar' : 'Sí, activar',
                     cancelButtonText: 'Cancelar',
-                    border: 'none',
-                    borderRadius: '15px'
+                    buttonsStyling: true,
+                    customClass: {
+                        popup: 'rounded-4 shadow'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Si el usuario dijo que "Si", enviamos el formulario
                         form.submit();
                     }
                 });

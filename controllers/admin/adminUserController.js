@@ -5,42 +5,26 @@ import bcrypt from "bcrypt";
 // --- LISTADO ---
 export const getAdminList = async (req, res) => {
     try {
-
-        if (!req.session || !req.session.user) {
-            console.log("DEBUG: No hay sesión de usuario activa.");
-            return res.redirect("/");
-        }
-
-
-        const userId = req.session.user._id || req.session.user.id;
-
-        if (!userId) {
-            console.log("DEBUG: El objeto user en sesión no tiene ID:", req.session.user);
-            req.flash("errors", "Error de sesión. Por favor, inicie sesión nuevamente.");
-            return res.redirect("/");
-        }
-
-        const currentAdminId = userId.toString();
-
-        // 3. Buscar los administradores
+        const userId = (req.session.user._id || req.session.user.id).toString();
         const admins = await User.find({ role: UserRoles.ADMIN }).lean();
 
         const mappedAdmins = admins.map(admin => ({
             ...admin,
-            isCurrentUser: admin._id.toString() === currentAdminId
+            isCurrentUser: admin._id.toString() === userId,
+            canBeManaged: !admin.isDefaultAdmin
         }));
 
         res.render("admin/users/admin-list", {
             pageTitle: "Mantenimiento de Administradores",
             admins: mappedAdmins,
             hasAdmins: admins.length > 0
+            // PROHIBIDO: No pongas success: req.flash(...) aquí. 
+            // El app.js ya lo hizo por ti y lo puso en res.locals.
         });
     } catch (error) {
-        console.error("Error detallado en getAdminList:", error);
         res.redirect("/admin");
     }
 };
-
 
 // --- MOSTRAR PANTALLA (CREAR / EDITAR) ---
 export const getSaveAdmin = async (req, res) => {
@@ -48,81 +32,75 @@ export const getSaveAdmin = async (req, res) => {
     let admin = null;
 
     try {
-        // 1. Verificación de seguridad de sesión
-        if (!req.session || !req.session.user) {
-            console.log("DEBUG: Sesión no encontrada en getSaveAdmin");
-            return res.redirect("/");
-        }
-
-        const sessionUserId = (req.session.user._id || req.session.user.id);
-
-        if (!sessionUserId) {
-            console.log("DEBUG: El usuario en sesión no tiene ID definido");
-            return res.redirect("/admin/admins-management");
-        }
-
-        const currentAdminId = sessionUserId.toString();
+        const sessionUserId = (req.session.user._id || req.session.user.id).toString();
 
         if (id) {
-            if (id === currentAdminId) {
-                req.flash("errors", "No puedes editar tu propio usuario desde el mantenimiento. Usa tu perfil personal.");
+            // Protección: No puedes editarte a ti mismo aquí
+            if (id === sessionUserId) {
+                req.flash("errors", "Usa la sección de 'Mi Perfil' para editar tus propios datos.");
                 return res.redirect("/admin/admins-management");
             }
 
             admin = await User.findById(id).lean();
-            if (!admin) {
-                req.flash("errors", "Administrador no encontrado.");
+
+            // REGLA DE ORO: Si es un admin por defecto, nadie lo toca
+            if (admin && admin.isDefaultAdmin) {
+                req.flash("errors", "El Administrador Principal del sistema no puede ser modificado.");
                 return res.redirect("/admin/admins-management");
             }
         }
+
         res.render("admin/users/save-admin", {
-            pageTitle: id ? "Editar Administrador" : "Crear Administrador",
+            pageTitle: id ? "Editar Administrador" : "Nuevo Administrador",
             editMode: !!id,
             admin: admin
         });
-
     } catch (error) {
-        console.error("Error en getSaveAdmin:", error);
         res.redirect("/admin/admins-management");
     }
 };
 
-// --- ACCIoN DE GUARDAR ---
 export const postSaveAdmin = async (req, res) => {
-    const { id, firstName, lastName, cedula, email, username, password } = req.body;
+    const { id, firstName, lastName, cedula, email, username, password, phone } = req.body;
 
     try {
-        // Validación de sesion
-        if (!req.session || !req.session.user) return res.redirect("/");
-
         if (id) {
-            // EDITAR
-            const currentAdminId = (req.session.user._id || req.session.user.id).toString();
-
-            // REGLA DEL MANDATO: No puedes editarte a ti mismo desde aqui
-            if (id === currentAdminId) {
-                req.flash("errors", "Para editar tu propio perfil, ve a la sección de configuración personal.");
+            // 1. Buscamos si existe y si no es el default
+            const targetAdmin = await User.findById(id);
+            if (!targetAdmin || targetAdmin.isDefaultAdmin) {
+                req.flash("errors", "No se puede editar este administrador.");
                 return res.redirect("/admin/admins-management");
             }
 
-            const updateData = { firstName, lastName, cedula, email, username };
+            // 2. Preparamos datos
+            const updateData = { firstName, lastName, cedula, email, username, phone };
+
             if (password && password.trim() !== "") {
                 updateData.password = await bcrypt.hash(password, 10);
             }
+
+            // 3. EJECUTAR LA ACTUALIZACIÓN (Esto era lo que faltaba)
             await User.findByIdAndUpdate(id, updateData);
+
+            req.flash("success", "Administrador actualizado correctamente.");
         } else {
-            // CREAR
+            // Lógica de CREAR (Ya la tienes bien)
             const hashedPassword = await bcrypt.hash(password, 10);
             await User.create({
-                firstName, lastName, cedula, email, username,
+                firstName, lastName, cedula, email, username, phone,
                 password: hashedPassword,
                 role: UserRoles.ADMIN,
-                isActive: true
+                isActive: true,
+                isDefaultAdmin: false
             });
+            req.flash("success", "Nuevo administrador creado con éxito.");
         }
+
         res.redirect("/admin/admins-management");
+
     } catch (error) {
-        console.error("Error en postSaveAdmin:", error);
+        console.error(error);
+        req.flash("errors", "Error de base de datos al guardar.");
         res.redirect("/admin/admins-management");
     }
 };
@@ -132,29 +110,29 @@ export const postToggleAdminStatus = async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Validación de sesión a prueba de balas
-        if (!req.session || !req.session.user) {
-            return res.redirect("/");
-        }
-
         const currentAdminId = (req.session.user._id || req.session.user.id).toString();
+        const user = await User.findById(id);
 
-        // REGLA DEL MANDATO: No puedes inactivar tu propia cuenta
+        if (!user) return res.redirect("/admin/admins-management");
+
+        // 1. No te puedes apagar a ti mismo
         if (id === currentAdminId) {
-            req.flash("errors", "No puedes inactivar tu propia cuenta mientras estás logueado.");
+            req.flash("errors", "No puedes desactivar tu propia cuenta.");
             return res.redirect("/admin/admins-management");
         }
 
-        const user = await User.findById(id);
-        if (user) {
-            user.isActive = !user.isActive;
-            await user.save();
-            req.flash("success", "Estado del administrador actualizado.");
+        // 2. No puedes apagar al admin por defecto
+        if (user.isDefaultAdmin) {
+            req.flash("errors", "El administrador base no puede ser desactivado.");
+            return res.redirect("/admin/admins-management");
         }
 
+        user.isActive = !user.isActive;
+        await user.save();
+
+        req.flash("success", `Usuario ${user.isActive ? 'activado' : 'desactivado'} con éxito.`);
         res.redirect("/admin/admins-management");
     } catch (error) {
-        console.error("Error en postToggleAdminStatus:", error);
         res.redirect("/admin/admins-management");
     }
 };

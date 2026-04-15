@@ -1,6 +1,7 @@
 import CommerceType from "../../models/CommerceType.js";
 import User from "../../models/User.js";
 import UserRoles from "../../models/enums/userRoles.js";
+import mongoose from "mongoose";
 
 // 1. LISTADO INICIAL
 export const getCommerceTypes = async (req, res) => {

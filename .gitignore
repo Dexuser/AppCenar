@@ -17,6 +17,8 @@ pids
 # Environment variables
 .env*
 # Debug files
+.env
+env.qa
 *.swp
 *.swo
 

@@ -8,8 +8,11 @@ export const getDeliveryList = async (req, res) => {
 
         // Mapeamos para obtener la cantidad de pedidos entregados por cada uno
         const deliveries = await Promise.all(deliveryData.map(async (delivery) => {
-            // Contamos los documentos en la colección Order donde el deliveryId coincida
-            const deliveredCount = await Order.countDocuments({ deliveryId: delivery._id });
+            // CORRECCIÓN: El campo en el Schema de Order es "delivery.userId"
+            // Opcionalmente, podrías filtrar solo los entregados agregando: status: 'completed'
+            const deliveredCount = await Order.countDocuments({
+                "delivery.userId": delivery._id
+            });
 
             return {
                 ...delivery,
@@ -32,11 +35,14 @@ export const postToggleDeliveryStatus = async (req, res) => {
     const { id } = req.params;
     try {
         const user = await User.findById(id);
-        if (!user) return res.redirect("/admin/delivery");
+        if (!user || user.role !== UserRoles.DELIVERY) {
+            return res.redirect("/admin/delivery");
+        }
 
         user.isActive = !user.isActive;
         await user.save();
 
+        req.flash("success", `Repartidor ${user.isActive ? 'activado' : 'inactivado'} correctamente.`);
         res.redirect("/admin/delivery");
     } catch (error) {
         console.error("Error al cambiar estado del delivery:", error);

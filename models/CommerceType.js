@@ -6,13 +6,18 @@ const commerceTypeSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    description: {
+    description: { // Faltaba este campo
       type: String,
       required: true
     },
+
     image: {
       type: String,
       required: true
+    },
+    isActive: {
+      type: Boolean,
+      default: true
     }
   },
   {
