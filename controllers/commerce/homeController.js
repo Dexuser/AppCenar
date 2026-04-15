@@ -15,7 +15,7 @@ export const getHome = async (req, res) => {
 
         const ordersView = orders.map(order => ({
             ...order,
-            productCount: order.products.length,
+            productCount: order.items.length,
             // Formateo de fecha para el diseño de la card
             dateDisplay: new Date(order.createdAt).toLocaleDateString('es-DO', {
                 day: 'numeric', month: 'short'
@@ -51,7 +51,7 @@ export const getOrderDetail = async (req, res) => {
         res.render("commerce/order-detail", {
             layout: "commerce-layout",
             order,
-            isPending: order.state === orderStatus.PENDING,
+            isPending: order.status === orderStatus.PENDING,
             formattedDate: new Date(order.createdAt).toLocaleString('es-DO'),
             user: req.session.user
         });
@@ -87,7 +87,8 @@ export const postAssignDelivery = async (req, res) => {
 
 
         await Order.findByIdAndUpdate(orderId, {
-            state: orderStatus.IN_PROGRESS,
+            status: orderStatus.IN_PROGRESS,
+            assignedAt: new Date(),
             delivery: {
                 deliveryId: delivery._id,
                 firstName: delivery.firstName,

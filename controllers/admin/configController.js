@@ -3,17 +3,15 @@ import Config from "../../models/Config.js";
 // 1. Pantalla Inicial: Mostrar ITBIS actual
 export const getConfigHome = async (req, res) => {
     try {
-        // Buscamos el registro principal. Usamos findOne sin filtro para obtener el único que existe.
-        let config = await Config.findOne().lean();
+        // Buscamos la configuración de ITBIS
+        let config = await Config.findOne({ key: "ITEBIS" }).lean();
 
-        // Si no existe (primera vez), lo creamos con valores iniciales
+        // Si no existe, la creamos con valor inicial
         if (!config) {
             config = await Config.create({
-                key: "SYSTEM_SETTINGS",
-                itebis: 18,
-                value: "Default Config"
+                key: "ITEBIS",
+                value: "18"
             });
-            // Convertimos a objeto plano para Handlebars después de crear
             config = config.toObject();
         }
 
@@ -30,7 +28,7 @@ export const getConfigHome = async (req, res) => {
 // 2. Pantalla de Edición: Formulario
 export const getEditConfig = async (req, res) => {
     try {
-        const config = await Config.findOne().lean();
+        const config = await Config.findOne({ key: "ITEBIS" }).lean();
         res.render("admin/config/edit", {
             pageTitle: "Editar Configuración",
             config
@@ -42,15 +40,12 @@ export const getEditConfig = async (req, res) => {
 
 // 3. Acción de Guardar
 export const postEditConfig = async (req, res) => {
-    // Recibimos itebis del body (asegúrate que el input se llame name="itebis")
-    const { itebis } = req.body;
+    const { itebis } = req.body; // input name="itebis"
 
     try {
-        // Usamos findOneAndUpdate con un objeto vacío para afectar al primer/único registro
-        // { upsert: true } asegura que si no existe, lo cree.
         await Config.findOneAndUpdate(
-            {},
-            { itebis: Number(itebis) },
+            { key: "ITEBIS" },
+            { value: String(itebis) },
             { upsert: true, new: true }
         );
 

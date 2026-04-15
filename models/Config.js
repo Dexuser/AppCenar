@@ -13,12 +13,6 @@ const configSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-
-    // Legacy field kept temporarily while the API migration is in progress.
-    itebis: {
-      type: Number,
-      default: null,
-    },
   },
   {
     timestamps: true,

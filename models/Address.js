@@ -10,7 +10,7 @@ const addressSchema = new mongoose.Schema(
 
     label: {
       type: String,
-      required: true
+      default: null
     },
 
     street: {
@@ -32,17 +32,6 @@ const addressSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-
-    // Legacy fields kept to avoid breaking older parts of the project while the API migration is in progress.
-    title: {
-      type: String,
-      default: null
-    },
-
-    description: {
-      type: String,
-      default: null
-    }
   },
   {
     timestamps: true,

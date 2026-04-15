@@ -10,12 +10,7 @@ const DEFAULT_CONFIGURATIONS = [
 const seedDefaultConfigurations = async () => {
   for (const configuration of DEFAULT_CONFIGURATIONS) {
     const existingConfiguration = await Config.findOne({
-      $or: [
-        { key: configuration.key },
-        configuration.key === "ITBIS"
-          ? { itebis: { $ne: null } }
-          : null,
-      ].filter(Boolean),
+      key: configuration.key,
     });
 
     if (existingConfiguration) {
@@ -24,18 +19,7 @@ const seedDefaultConfigurations = async () => {
       }
 
       if (!existingConfiguration.value) {
-        existingConfiguration.value =
-          configuration.key === "ITBIS" && existingConfiguration.itebis !== null
-            ? String(existingConfiguration.itebis)
-            : configuration.value;
-      }
-
-      if (
-        configuration.key === "ITBIS" &&
-        (existingConfiguration.itebis === null ||
-          existingConfiguration.itebis === undefined)
-      ) {
-        existingConfiguration.itebis = Number(existingConfiguration.value);
+        existingConfiguration.value = configuration.value;
       }
 
       await existingConfiguration.save();
@@ -45,7 +29,6 @@ const seedDefaultConfigurations = async () => {
     await Config.create({
       key: configuration.key,
       value: configuration.value,
-      itebis: configuration.key === "ITBIS" ? Number(configuration.value) : null,
     });
   }
 };

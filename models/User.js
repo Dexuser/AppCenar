@@ -114,7 +114,7 @@ const userSchema = new mongoose.Schema(
     },
 
     // Delivery
-    isBusy: { type: Boolean, default: false }, // si es true el dilevery esta ocupado, de lo contrario, NO ESTA OCUPADO
+    isBusy: {type: Boolean, default: false}, // si es true el dilevery esta ocupado, de lo contrario, NO ESTA OCUPADO
 
     isDefaultAdmin: {
       type: Boolean,

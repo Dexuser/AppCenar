@@ -1,23 +1,29 @@
 import User from "../../models/User.js";
 import Order from "../../models/Order.js";
 import UserRoles from "../../models/enums/userRoles.js";
+import OrderStatus from "../../models/enums/orderStatus.js";
 
 export const getDeliveryList = async (req, res) => {
     try {
+
         const deliveryData = await User.find({ role: UserRoles.DELIVERY }).lean();
 
-        // Mapeamos para obtener la cantidad de pedidos entregados por cada uno
-        const deliveries = await Promise.all(deliveryData.map(async (delivery) => {
-            // CORRECCIÓN: El campo en el Schema de Order es "delivery.userId"
-            // Opcionalmente, podrías filtrar solo los entregados agregando: status: 'completed'
-            const deliveredCount = await Order.countDocuments({
-                "delivery.userId": delivery._id
-            });
 
-            return {
-                ...delivery,
-                deliveredCount
-            };
+        const deliveredCounts = await Order.aggregate([
+            { $match: { status: OrderStatus.COMPLETED, "delivery.userId": { $ne: null } } },
+            { $group: { _id: "$delivery.userId", count: { $sum: 1 } } }
+        ]);
+
+
+        const countMap = deliveredCounts.reduce((acc, item) => {
+            acc[item._id.toString()] = item.count;
+            return acc;
+        }, {});
+
+
+        const deliveries = deliveryData.map(delivery => ({
+            ...delivery,
+            deliveredCount: countMap[delivery._id.toString()] || 0
         }));
 
         res.render("admin/users/delivery-list", {
@@ -30,6 +36,7 @@ export const getDeliveryList = async (req, res) => {
         res.redirect("/admin");
     }
 };
+
 
 export const postToggleDeliveryStatus = async (req, res) => {
     const { id } = req.params;
