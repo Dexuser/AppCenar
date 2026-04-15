@@ -1,0 +1,122 @@
+<section class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+            <div class="bg-primary p-4 text-white text-center"
+                style="background: linear-gradient(45deg, #2c3e50, #34495e) !important;">
+                <h2 class="fw-bold mb-1">Mi Perfil</h2>
+                <p class="text-white-50 mb-0">Actualiza tu información personal</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+                <form action="/delivery/profile" method="POST" enctype="multipart/form-data">
+
+                    <!-- FOTO -->
+                    <div class="row mb-5 align-items-center">
+                        <div class="col-md-4 text-center mb-3 mb-md-0">
+                            <div class="position-relative d-inline-block">
+
+                                {{#if user.profilePicture}}
+                                <img src="{{user.profilePicture}}" id="imgPreview"
+                                    class="rounded-circle border border-4 border-white shadow"
+                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                {{else}}
+                                <img src="/assets/img/default-user.png" id="imgPreview"
+                                    class="rounded-circle border border-4 border-white shadow"
+                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                {{/if}}
+
+                                <div class="position-absolute bottom-0 end-0">
+                                    <label for="imageInput" class="btn btn-warning btn-sm rounded-circle shadow">
+                                        <i class="bi bi-camera-fill"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <h5 class="fw-bold text-dark mb-2">
+                                {{user.firstName}} {{user.lastName}}
+                            </h5>
+                            <p class="text-muted small">
+                                Puedes cambiar tu foto de perfil.
+                            </p>
+
+                            <input type="file" name="profilePicture" id="imageInput"
+                                class="d-none" accept="image/*"
+                                onchange="previewImage(event)">
+                        </div>
+                    </div>
+
+                    <hr class="text-muted opacity-25 mb-5">
+
+                    <!-- FORM -->
+                    <div class="row g-4">
+
+                        <!-- NOMBRE -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary small text-uppercase">Nombre</label>
+                            <input type="text" name="firstName"
+                                class="form-control bg-light border-0"
+                                value="{{user.firstName}}" required>
+                        </div>
+
+                        <!-- APELLIDO -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary small text-uppercase">Apellido</label>
+                            <input type="text" name="lastName"
+                                class="form-control bg-light border-0"
+                                value="{{user.lastName}}" required>
+                        </div>
+
+                        <!-- TELÉFONO -->
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold text-secondary small text-uppercase">Teléfono</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="bi bi-telephone-fill text-success"></i>
+                                </span>
+                                <input type="text" name="phone"
+                                    class="form-control bg-light border-0"
+                                    value="{{user.phone}}" required>
+                            </div>
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="col-12 mt-5">
+                            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                                
+                                <a href="/delivery"
+                                    class="btn btn-light rounded-pill px-4 fw-bold text-muted">
+                                    <i class="bi bi-arrow-left me-2"></i> Volver
+                                </a>
+
+                                <button type="submit"
+                                    class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm">
+                                    <i class="bi bi-cloud-arrow-up-fill me-2"></i> Guardar Cambios
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#section 'scripts'}}
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('imgPreview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{{/section}}

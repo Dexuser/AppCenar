@@ -1,7 +1,7 @@
 const OrderStatus = Object.freeze({
-  PENDING: "Pending",
-  IN_PROGRESS: "InProgress",
-  COMPLETED: "Completed",
+  PENDING: "pending",
+  IN_PROGRESS: "in_progress",
+  COMPLETED: "completed",
 });
 
 export default OrderStatus;

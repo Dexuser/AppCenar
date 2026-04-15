@@ -8,7 +8,7 @@
     {{#if hasOrders}}
     {{#each orders}}
     <div class="col-12 mb-3">
-      <a href="/commerce/order/{{this._id}}" class="text-decoration-none text-dark">
+      <a href="/delivery/order/{{this._id}}" class="text-decoration-none text-dark">
         <div class="card border-0 shadow-sm p-3 rounded-4 hover-shadow transition">
           <div class="d-flex align-items-center">
             <img src="{{this.commerce.logo}}" class="rounded-circle border me-3"
@@ -18,9 +18,9 @@
               <div class="d-flex justify-content-between align-items-center">
                 <span
                   class="badge rounded-pill text-uppercase px-3 py-2 
-                                        {{#if (eq this.status 'pending')}}bg-warning-subtle text-warning-emphasis{{/if}}
-                                        {{#if (eq this.status 'in_progress')}}bg-primary-subtle text-primary-emphasis{{/if}}
-                                        {{#if (eq this.status 'completed')}}bg-success-subtle text-success-emphasis{{/if}}">
+                                        {{#if (Equals this.status 'pending')}}bg-warning-subtle text-warning-emphasis{{/if}}
+                                        {{#if (Equals this.status 'in_progress')}}bg-primary-subtle text-primary-emphasis{{/if}}
+                                        {{#if (Equals this.status 'completed')}}bg-success-subtle text-success-emphasis{{/if}}">
                   ● {{this.status}}
                 </span>
                 <small class="text-muted fw-medium">{{this.dateDisplay}} • {{this.timeDisplay}}</small>
