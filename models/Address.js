@@ -10,27 +10,34 @@ const addressSchema = new mongoose.Schema(
 
     label: {
       type: String,
-      default: null
+      required: true,
+      trim: true,
+    },
+
+    description: {
+      type: String,
+      required: true,
+      trim: true,
     },
 
     street: {
       type: String,
-      required: true
+      default: null,
     },
 
     sector: {
       type: String,
-      required: true
+      default: null,
     },
 
     city: {
       type: String,
-      required: true
+      default: null,
     },
 
     reference: {
       type: String,
-      required: true
+      default: null,
     },
   },
   {

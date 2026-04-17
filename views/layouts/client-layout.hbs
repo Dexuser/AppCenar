@@ -1,108 +1,119 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/assets/css/lib/bootstrap/bootstrap.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    />
-       <link rel="stylesheet" href="/assets/css/site/main.css" />
-    {{{_sections.styles}}}
-    <title>{{page-title}}</title>
-  </head>
-  <body>
+<!DOCTYPE html>
+<html lang="es">
 
-    <header>
-      <nav
-        class="navbar bg-dark border-bottom border-body navbar-expand-lg"
-        data-bs-theme="dark"
-      >
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/dashboard">Assets App</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/assets/index">Assets</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/assets-type/index">Assets type</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/assets-type/index">client layout. Modofica este Layout mio</a>
-              </li>
-                 <li class="nav-item">
-                <a class="nav-link" href="/user/logout"> LogOut{{#if hasUser}}({{user.email}}){{/if}} </a>
-              </li>
-            </ul>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{pageTitle}} | AppCenar Cliente</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/lib/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/assets/css/site/main.css" />
+  <link rel="stylesheet" href="/assets/css/site/client.css" />
+
+  {{{_sections.styles}}}
+</head>
+
+<body class="client-body">
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg client-navbar shadow-sm">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/client">
+          <span class="client-brand-icon">
+            <i class="bi bi-bag-heart-fill"></i>
+          </span>
+          <span>AppCenar <span class="text-warning">Cliente</span></span>
+        </a>
+
+        <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse"
+          data-bs-target="#clientNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="clientNavbar">
+          <ul class="navbar-nav mx-auto gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link" href="/client">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/client/profile">Mi perfil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/client/orders">Mis pedidos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/client/addresses">Mis direcciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/client/favorites">Mis favoritos</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center gap-3 client-navbar-profile">
+            <a href="/client/profile"
+              class="text-decoration-none d-flex align-items-center gap-2 text-white rounded-pill px-2 py-1 client-profile-pill">
+              {{#if user.profilePicture}}
+              <img src="{{user.profilePicture}}" alt="Perfil" width="38" height="38"
+                class="rounded-circle object-fit-cover border border-2 border-warning">
+              {{else}}
+              <span class="client-avatar-placeholder">
+                <i class="bi bi-person-fill"></i>
+              </span>
+              {{/if}}
+              <div class="d-none d-sm-block">
+                <div class="small fw-bold">{{user.firstName}} {{user.lastName}}</div>
+                <div class="client-pill-subtitle">Gestionar cuenta</div>
+              </div>
+            </a>
+
+            <a class="btn btn-link text-danger text-decoration-none p-0" href="/user/logout" title="Cerrar sesión">
+              <i class="bi bi-power fs-5"></i>
+            </a>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
 
-    <main class="container mt-5">
-         {{#if hasErrors}}
-        <div
-          class="alert alert-danger alert-dismissible fade show"
-          role="alert"
-        >
-          <ul>
-            {{#each errors}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="close"
-          ></button>
+  <main class="container py-4 py-lg-5">
+    {{#if hasErrors}}
+    <div class="alert alert-danger alert-dismissible fade show rounded-4 border-0 shadow-sm mb-4" role="alert">
+      <div class="d-flex align-items-start gap-3">
+        <i class="bi bi-exclamation-circle-fill fs-4"></i>
+        <div>
+          {{#each errors}}
+          <div>{{this}}</div>
+          {{/each}}
         </div>
-      {{/if}}
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {{/if}}
 
-      {{#if hasSuccess}}
-        <div
-          class="alert alert-success alert-dismissible fade show"
-          role="alert"
-        >
-          <ul>
-            {{#each success}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="close"
-          ></button>
+    {{#if hasSuccess}}
+    <div class="alert alert-success alert-dismissible fade show rounded-4 border-0 shadow-sm mb-4" role="alert">
+      <div class="d-flex align-items-start gap-3">
+        <i class="bi bi-check-circle-fill fs-4"></i>
+        <div>
+          {{#each success}}
+          <div>{{this}}</div>
+          {{/each}}
         </div>
-      {{/if}}
-      {{{body}}}
-    </main>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {{/if}}
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="/assets/js/lib/bootstrap/bootstrap.min.js"></script>    
-    {{{_sections.scripts}}}
-  </body>
+    {{{body}}}
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="/assets/js/lib/bootstrap/bootstrap.min.js"></script>
+  {{{_sections.scripts}}}
+</body>
 
 </html>

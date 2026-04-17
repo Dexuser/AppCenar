@@ -1,3 +1,68 @@
-<div class="row">
-  <h1 class="text-center">client Home</h1>
-</div>
+<section class="client-hero mb-4 mb-lg-5">
+  <span class="client-eyebrow"><i class="bi bi-stars"></i> Pedido en minutos</span>
+  <div class="row align-items-center g-4 mt-1">
+    <div class="col-lg-8">
+      <h1 class="display-6 fw-bold mb-3">Explora por tipo de comercio y arma tu pedido desde un solo lugar.</h1>
+      <p class="mb-0 text-white-50">Selecciona una categoría para ver los comercios disponibles, guardar favoritos y
+        completar tu compra.</p>
+    </div>
+    <div class="col-lg-4">
+      <div class="client-panel bg-white text-dark h-100">
+        <div class="client-soft-badge client-accent-badge mb-3">
+          <i class="bi bi-compass"></i> Acceso rápido
+        </div>
+        {{#if hasPendingCart}}
+        <h5 class="fw-bold">Tienes un pedido pendiente</h5>
+        <p class="client-muted mb-3">Retoma tu catálogo actual con {{pendingCartCount}} producto(s) ya seleccionados.
+        </p>
+        <a href="{{resumeCartUrl}}" class="btn btn-warning w-100 rounded-pill fw-bold">
+          <i class="bi bi-basket2-fill me-2"></i> Retomar pedido
+        </a>
+        {{else}}
+        <h5 class="fw-bold">Todo listo para empezar</h5>
+        <p class="client-muted mb-0">Elige un tipo de comercio y descubre su catálogo para crear tu pedido.</p>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mb-3">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <h2 class="client-section-title mb-1">Tipos de comercios</h2>
+      <p class="client-muted mb-0">Escoge el tipo que deseas ver y te llevamos al listado de comercios activos.</p>
+    </div>
+  </div>
+
+  {{#if hasCommerceTypes}}
+  <div class="row g-4">
+    {{#each commerceTypes}}
+    <div class="col-12 col-md-6 col-xl-4">
+      <a href="/client/commerces/{{this._id}}" class="text-decoration-none text-dark d-block h-100">
+        <article class="client-type-card p-3">
+          <img src="{{this.image}}" alt="{{this.title}}" class="client-type-media mb-3">
+          <div class="d-flex justify-content-between align-items-start gap-3">
+            <div>
+              <h3 class="h5 fw-bold mb-1">{{this.title}}</h3>
+              <p class="client-muted mb-2">{{this.description}}</p>
+            </div>
+            <span class="client-soft-badge">{{this.commerceCount}} comercio(s)</span>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mt-3">
+            <span class="client-muted small">Explorar comercios</span>
+            <i class="bi bi-arrow-right-circle-fill fs-4 text-warning"></i>
+          </div>
+        </article>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <div class="client-empty">
+    <i class="bi bi-grid-1x2"></i>
+    <h3 class="h4 fw-bold mt-3">No hay tipos de comercios disponibles</h3>
+    <p class="client-muted mb-0">Cuando el administrador agregue nuevos tipos de comercios aparecerán aquí.</p>
+  </div>
+  {{/if}}
+</section>

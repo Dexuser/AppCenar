@@ -1,61 +1,86 @@
-import multer from "multer"; // Import multer for file uploads
-import { projectRoot } from "../utils/Paths.js";
+import fs from "fs";
+import multer from "multer";
 import path from "path";
 import { v4 as guidV4 } from "uuid";
+import { projectRoot } from "../utils/Paths.js";
 
+const commerceLogoDirectory = path.join(
+  projectRoot,
+  "public",
+  "uploads",
+  "images",
+  "users",
+  "commerce-logos"
+);
+const profilePictureDirectory = path.join(
+  projectRoot,
+  "public",
+  "uploads",
+  "images",
+  "users",
+  "profiles-pictures"
+);
+const commerceTypeDirectory = path.join(
+  projectRoot,
+  "public",
+  "uploads",
+  "images",
+  "commerce-types"
+);
+const commerceProductDirectory = path.join(
+  projectRoot,
+  "public",
+  "uploads",
+  "images",
+  "commerce-products"
+);
 
-let test;
+const uploadDirectories = [
+  commerceLogoDirectory,
+  profilePictureDirectory,
+  commerceTypeDirectory,
+  commerceProductDirectory,
+];
 
-const imageStorageForLogoAssets = multer.diskStorage({
-  destination: (req, file, cb) => {
+function ensureDirectoryExists(directory) {
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true });
+  }
+}
 
-    cb(null, path.join(projectRoot, "public", "uploads", "images", "users", "commerce-logos"));
-  },
-  filename: (req, file, cb) => {
-    const fileName = `${guidV4()}-${file.originalname}`; //
-    cb(null, fileName);
-  },
-});
+for (const directory of uploadDirectories) {
+  ensureDirectoryExists(directory);
+}
 
-const imageStorageForProfileImage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(
-      null,
-      path.join(projectRoot, "public", "uploads", "images", "users", "profiles-pictures")
-    );
-  },
-  filename: (req, file, cb) => {
-    const fileName = `${guidV4()}-${file.originalname}`;
-    cb(null, fileName);
-  },
-});
+function createImageStorage(directory) {
+  return multer.diskStorage({
+    destination: (req, file, cb) => {
+      try {
+        ensureDirectoryExists(directory);
+        cb(null, directory);
+      } catch (error) {
+        cb(error, directory);
+      }
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${guidV4()}-${file.originalname}`);
+    },
+  });
+}
 
-// Añade esto a tu multer.js
-const imageStorageForCommerceTypes = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(projectRoot, "public", "uploads", "images", "commerce-types"));
-  },
-  filename: (req, file, cb) => {
-    const fileName = `${guidV4()}-${file.originalname}`;
-    cb(null, fileName);
-  },
-});
-
-// Configuración para Productos
-const productStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Usamos path.join para evitar errores de ruta
-    cb(null, path.join(projectRoot, "public", "uploads", "images", "commerce-products"));
-  },
-  filename: (req, file, cb) => {
-    // Usamos guidV4 para mantener la consistencia con tus otros storages
-    const fileName = `${guidV4()}-${file.originalname}`;
-    cb(null, fileName);
-  },
-});
-
+const imageStorageForLogoAssets = createImageStorage(commerceLogoDirectory);
+const imageStorageForProfileImage = createImageStorage(profilePictureDirectory);
+const imageStorageForCommerceTypes = createImageStorage(commerceTypeDirectory);
+const productStorage = createImageStorage(commerceProductDirectory);
 
 export const uploadProductImage = multer({ storage: productStorage });
-export const uploadCommerceTypeImage = multer({ storage: imageStorageForCommerceTypes }).single("image");
-export const uploadLogo = multer({ storage: imageStorageForLogoAssets }).single("logo");
-export const uploadProfilePicture = multer({ storage: imageStorageForProfileImage }).single("profilePicture"); 
+export const uploadCommerceTypeImage = multer({
+  storage: imageStorageForCommerceTypes,
+}).single("image");
+export const uploadLogo = multer({ storage: imageStorageForLogoAssets }).single(
+  "logo"
+);
+export const uploadProfilePicture = multer({
+  storage: imageStorageForProfileImage,
+}).single("profilePicture");
+export { ensureDirectoryExists };

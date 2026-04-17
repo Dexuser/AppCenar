@@ -1,0 +1,62 @@
+<section class="d-flex align-items-center gap-3 mb-4">
+  <a href="/client/orders" class="btn btn-outline-secondary rounded-pill">
+    <i class="bi bi-arrow-left me-2"></i> Volver a pedidos
+  </a>
+  <div>
+    <h1 class="client-section-title mb-0">Detalle del pedido</h1>
+    <p class="client-muted mb-0">{{formattedDate}}</p>
+  </div>
+</section>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <section class="client-card mb-4">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{{order.commerce.logo}}" alt="{{order.commerce.name}}" class="client-favorite-thumb">
+          <div>
+            <h2 class="h4 fw-bold mb-1">{{order.commerce.name}}</h2>
+            <p class="client-muted mb-0">Pedido creado por ti</p>
+          </div>
+        </div>
+        <span class="client-status-pill {{order.status}}">{{order.statusLabel}}</span>
+      </div>
+
+      <div class="client-order-list">
+        {{#each order.items}}
+        <div class="client-order-item">
+          <img src="{{this.image}}" alt="{{this.name}}" class="client-order-thumb">
+          <div class="flex-grow-1">
+            <div class="fw-bold">{{this.name}}</div>
+            <div class="client-muted small">{{this.description}}</div>
+          </div>
+          <strong>RD$ {{this.formattedPrice}}</strong>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+  </div>
+
+  <div class="col-lg-4">
+    <aside class="client-summary">
+      <div class="mb-4">
+        <div class="client-muted small">Dirección seleccionada</div>
+        <div class="fw-bold">{{order.address.label}}</div>
+        <div class="client-muted">{{order.address.description}}</div>
+      </div>
+
+      <div class="client-summary-row">
+        <span class="client-muted">Subtotal</span>
+        <strong>RD$ {{order.formattedSubtotal}}</strong>
+      </div>
+      <div class="client-summary-row">
+        <span class="client-muted">ITBIS</span>
+        <strong>RD$ {{order.formattedItbisAmount}}</strong>
+      </div>
+      <div class="client-summary-row client-summary-total">
+        <span class="fw-bold">Total</span>
+        <span class="h4 fw-bold mb-0">RD$ {{order.formattedTotal}}</span>
+      </div>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<section class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+  <div>
+    <a href="{{backUrl}}" class="btn btn-outline-secondary rounded-pill mb-3">
+      <i class="bi bi-arrow-left me-2"></i> Volver al catálogo
+    </a>
+    <h1 class="client-section-title mb-1">Confirma tu pedido</h1>
+    <p class="client-muted mb-0">Selecciona una dirección y revisa el resumen antes de crear el pedido.</p>
+  </div>
+  <span class="client-soft-badge client-accent-badge">{{checkout.itemCount}} producto(s)</span>
+</section>
+
+<div class="row g-4 align-items-start">
+  <div class="col-lg-7">
+    <section class="client-card">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1">Direcciones disponibles</h2>
+          <p class="client-muted mb-0">Debes escoger una dirección para completar el pedido.</p>
+        </div>
+        <a href="/client/addresses/create" class="btn btn-dark rounded-pill">
+          <i class="bi bi-plus-lg me-2"></i> Crear dirección
+        </a>
+      </div>
+
+      {{#if hasAddresses}}
+      <form action="/client/catalog/{{commerce._id}}/checkout" method="POST" class="d-grid gap-3">
+        {{#each addresses}}
+        <div class="client-radio-card">
+          <input type="radio" name="addressId" id="address-{{this._id}}" value="{{this._id}}" required>
+          <label for="address-{{this._id}}">
+            <div class="fw-bold">{{this.label}}</div>
+            <div class="client-muted small mt-1">{{this.description}}</div>
+          </label>
+        </div>
+        {{/each}}
+
+        <div class="client-page-actions mt-3">
+          <button type="submit" class="btn btn-warning rounded-pill fw-bold">
+            <i class="bi bi-check2-circle me-2"></i> Crear pedido
+          </button>
+          <a href="{{backUrl}}" class="btn btn-outline-secondary rounded-pill">Volver al catálogo</a>
+        </div>
+      </form>
+      {{else}}
+      <div class="client-empty">
+        <i class="bi bi-geo-alt"></i>
+        <h3 class="h5 fw-bold mt-3">Necesitas crear una dirección</h3>
+        <p class="client-muted">Si no tienes una dirección guardada no podrás continuar al siguiente paso.</p>
+        <a href="/client/addresses/create" class="btn btn-warning rounded-pill fw-bold">
+          <i class="bi bi-plus-lg me-2"></i> Crear mi primera dirección
+        </a>
+      </div>
+      {{/if}}
+    </section>
+  </div>
+
+  <div class="col-lg-5">
+    <aside class="client-summary">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <img src="{{commerce.commerceLogo}}" alt="{{commerce.commerceName}}" class="client-favorite-thumb">
+        <div>
+          <div class="client-muted small">Comercio</div>
+          <div class="h4 fw-bold mb-0">{{commerce.commerceName}}</div>
+        </div>
+      </div>
+
+      <div class="client-cart-list mb-4">
+        {{#each checkout.items}}
+        <div class="client-cart-item">
+          <img src="{{this.image}}" alt="{{this.name}}" class="client-cart-thumb">
+          <div class="flex-grow-1">
+            <div class="fw-bold">{{this.name}}</div>
+            <small class="client-muted">RD$ {{this.formattedPrice}}</small>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="client-summary-row">
+        <span class="client-muted">Subtotal</span>
+        <strong>RD$ {{checkout.formattedSubtotal}}</strong>
+      </div>
+      <div class="client-summary-row">
+        <span class="client-muted">ITBIS ({{checkout.itbisPercentage}}%)</span>
+        <strong>RD$ {{checkout.formattedItbisAmount}}</strong>
+      </div>
+      <div class="client-summary-row client-summary-total">
+        <span class="fw-bold">Total</span>
+        <span class="h4 fw-bold mb-0">RD$ {{checkout.formattedTotal}}</span>
+      </div>
+    </aside>
+  </div>
+</div>

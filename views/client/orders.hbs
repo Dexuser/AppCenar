@@ -1,0 +1,43 @@
+<section class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+  <div>
+    <h1 class="client-section-title mb-1">Mis pedidos</h1>
+    <p class="client-muted mb-0">Consulta el estado de tus pedidos y entra a su detalle.</p>
+  </div>
+  <span class="client-soft-badge">{{orders.length}} pedido(s)</span>
+</section>
+
+{{#if hasOrders}}
+<section class="row g-4">
+  {{#each orders}}
+  <div class="col-12">
+    <a href="/client/orders/{{this._id}}" class="text-decoration-none text-dark d-block">
+      <article class="client-order-card p-3">
+        <div class="d-flex flex-column flex-md-row gap-3 align-items-md-center">
+          <img src="{{this.commerce.logo}}" alt="{{this.commerce.name}}" class="client-favorite-thumb">
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+              <div>
+                <h2 class="h4 fw-bold mb-1">{{this.commerce.name}}</h2>
+                <p class="client-muted mb-0">{{this.dateTimeDisplay}}</p>
+              </div>
+              <span class="client-status-pill {{this.status}}">{{this.statusLabel}}</span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3">
+              <span class="client-muted"><i class="bi bi-box-seam me-2"></i>{{this.productCount}} producto(s)</span>
+              <strong class="fs-5">RD$ {{this.formattedTotal}}</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+    </a>
+  </div>
+  {{/each}}
+</section>
+{{else}}
+<section class="client-empty">
+  <i class="bi bi-receipt"></i>
+  <h2 class="h4 fw-bold mt-3">Aún no has creado pedidos</h2>
+  <p class="client-muted">Cuando realices tu primer pedido, lo verás listado aquí con su estado.</p>
+</section>
+{{/if}}

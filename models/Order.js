@@ -85,21 +85,25 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      street: {
+      description: {
         type: String,
         required: true,
+      },
+      street: {
+        type: String,
+        default: null,
       },
       sector: {
         type: String,
-        required: true,
+        default: null,
       },
       city: {
         type: String,
-        required: true,
+        default: null,
       },
       reference: {
         type: String,
-        required: true,
+        default: null,
       },
     },
 

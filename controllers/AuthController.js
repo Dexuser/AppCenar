@@ -5,8 +5,16 @@ import bcrypt from "bcrypt";
 import { promisify } from "util";
 import { randomBytes } from "crypto";
 import homeRouteByRole from "../utils/RedirectByRole.js";
-import path from "path";
 import UserRoles from "../models/enums/userRoles.js";
+
+function normalizeAssetPath(assetPath) {
+  if (!assetPath) {
+    return null;
+  }
+
+  const normalized = assetPath.replace(/\\/g, "/");
+  return normalized.startsWith("/") ? normalized : `/${normalized}`;
+}
 
 export function GetLogin(req, res) {
   res.render("auth/login", {
@@ -46,10 +54,10 @@ export async function PostLogin(req, res) {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      profilePicture: user.profilePicture,
+      profilePicture: normalizeAssetPath(user.profilePicture),
       role: user.role,
       commerceName: user.commerceName,
-      commerceLogo: user.commerceLogo,
+      commerceLogo: normalizeAssetPath(user.commerceLogo),
       isBusy: user.isBusy,
     };
 
@@ -117,8 +125,9 @@ export async function PostRegisterClientOrDelivery(req, res) {
     confirmPassword,
   } = req.body;
 
-  const profilePicture = req.file;
-  const profilePicturePath = "\\" + path.relative("public", profilePicture.path); // Get the relative path of the uploaded file
+  const profilePicturePath = req.file
+    ? `/uploads/images/users/profiles-pictures/${req.file.filename}`
+    : null;
 
   try {
     if (password !== confirmPassword) {
@@ -207,7 +216,7 @@ export async function PostRegisterCommerce(req, res) {
     return res.redirect("/user/register-commerce");
   }
 
-  const logoPath = "\\" + path.relative("public", logo.path);
+  const logoPath = `/uploads/images/users/commerce-logos/${logo.filename}`;
 
   try {
     if (password !== confirmPassword) {

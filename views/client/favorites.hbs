@@ -1,0 +1,43 @@
+<section class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+  <div>
+    <h1 class="client-section-title mb-1">Mis favoritos</h1>
+    <p class="client-muted mb-0">Aquí se muestran los comercios que marcaste para volver más rápido.</p>
+  </div>
+  <span class="client-soft-badge">{{favorites.length}} favorito(s)</span>
+</section>
+
+{{#if hasFavorites}}
+<section class="row g-4">
+  {{#each favorites}}
+  <div class="col-12 col-lg-6">
+    <article class="client-favorite-card p-3 h-100">
+      <div class="d-flex gap-3 align-items-start">
+        <a href="/client/catalog/{{this.commerceId}}" class="text-decoration-none text-dark d-flex gap-3 flex-grow-1">
+          <img src="{{this.commerceLogo}}" alt="{{this.commerceName}}" class="client-favorite-thumb">
+          <div>
+            <h2 class="h4 fw-bold mb-1">{{this.commerceName}}</h2>
+            <p class="client-muted mb-2">{{this.commerceType}}</p>
+            <span class="client-soft-badge client-accent-badge">
+              <i class="bi bi-bag-plus"></i> Ver catálogo
+            </span>
+          </div>
+        </a>
+
+        <form action="/client/favorites/toggle/{{this.commerceId}}" method="POST">
+          <input type="hidden" name="returnTo" value="{{../currentUrl}}">
+          <button type="submit" class="btn btn-outline-danger client-icon-button">
+            <i class="bi bi-heartbreak"></i>
+          </button>
+        </form>
+      </div>
+    </article>
+  </div>
+  {{/each}}
+</section>
+{{else}}
+<section class="client-empty">
+  <i class="bi bi-heart"></i>
+  <h2 class="h4 fw-bold mt-3">Todavía no guardas favoritos</h2>
+  <p class="client-muted">Cuando marques comercios como favoritos desde el listado aparecerán en esta pantalla.</p>
+</section>
+{{/if}}

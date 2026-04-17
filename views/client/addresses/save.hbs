@@ -1,0 +1,49 @@
+<section class="row justify-content-center">
+  <div class="col-lg-8 col-xl-7">
+    <div class="client-form-card">
+      <a href="/client/addresses" class="btn btn-outline-secondary rounded-pill mb-4">
+        <i class="bi bi-arrow-left me-2"></i> Volver al listado
+      </a>
+
+      <h1 class="client-section-title mb-1">{{#if editMode}}Editar dirección{{else}}Nueva dirección{{/if}}</h1>
+      <p class="client-muted mb-4">Completa el nombre y los datos de la dirección para tus pedidos.</p>
+
+      <form action="{{#if editMode}}/client/addresses/edit/{{address._id}}{{else}}/client/addresses/create{{/if}}"
+        method="POST">
+        <div class="row g-4">
+          <div class="col-12">
+            <label class="form-label fw-bold">Nombre de la dirección</label>
+            <input type="text" name="label" value="{{address.label}}" class="form-control" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-bold">Descripción</label>
+            <textarea name="description" rows="3" class="form-control" required>{{address.description}}</textarea>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Calle / dirección</label>
+            <input type="text" name="street" value="{{address.street}}" class="form-control">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Sector</label>
+            <input type="text" name="sector" value="{{address.sector}}" class="form-control">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Ciudad</label>
+            <input type="text" name="city" value="{{address.city}}" class="form-control">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label fw-bold">Referencia</label>
+            <input type="text" name="reference" value="{{address.reference}}" class="form-control">
+          </div>
+        </div>
+
+        <div class="client-page-actions mt-4">
+          <a href="/client/addresses" class="btn btn-outline-secondary rounded-pill">Cancelar</a>
+          <button type="submit" class="btn btn-warning rounded-pill fw-bold">
+            <i class="bi bi-save me-2"></i> {{#if editMode}}Guardar dirección{{else}}Crear dirección{{/if}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

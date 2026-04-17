@@ -1,0 +1,126 @@
+<section class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+  <div>
+    <a href="{{backUrl}}" class="btn btn-outline-secondary rounded-pill mb-3">
+      <i class="bi bi-arrow-left me-2"></i> Volver a comercios
+    </a>
+    <h1 class="client-section-title mb-1">{{commerce.commerceName}}</h1>
+    <p class="client-muted mb-0">{{commerce.commerceTypeId.title}}</p>
+  </div>
+
+  <div class="client-page-actions">
+    <form action="/client/favorites/toggle/{{commerce._id}}" method="POST">
+      <input type="hidden" name="returnTo" value="{{currentUrl}}">
+      <button type="submit" class="btn {{#if commerce.isFavorite}}btn-danger{{else}}btn-outline-danger{{/if}} rounded-pill">
+        <i class="bi {{#if commerce.isFavorite}}bi-heart-fill{{else}}bi-heart{{/if}} me-2"></i>
+        {{#if commerce.isFavorite}}Quitar favorito{{else}}Guardar favorito{{/if}}
+      </button>
+    </form>
+    <a href="{{checkoutUrl}}" class="btn btn-warning rounded-pill fw-bold {{#unless cart.hasItems}}disabled{{/unless}}">
+      <i class="bi bi-arrow-right-circle me-2"></i> Continuar pedido
+    </a>
+  </div>
+</section>
+
+<div class="row g-4 align-items-start">
+  <div class="col-lg-8">
+    {{#if hasCategories}}
+    <div class="d-grid gap-4">
+      {{#each categories}}
+      <section class="client-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="h4 fw-bold mb-1">{{this.name}}</h2>
+            <p class="client-muted mb-0">{{this.description}}</p>
+          </div>
+          <span class="client-soft-badge">{{this.products.length}} producto(s)</span>
+        </div>
+
+        <div class="row g-4">
+          {{#each this.products}}
+          <div class="col-12 col-md-6">
+            <article class="client-product-card p-3">
+              <img src="{{this.image}}" alt="{{this.name}}" class="client-product-media mb-3">
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                <h3 class="h5 fw-bold mb-0">{{this.name}}</h3>
+                <span class="client-soft-badge client-accent-badge">RD$ {{this.formattedPrice}}</span>
+              </div>
+              <p class="client-muted mb-4">{{this.description}}</p>
+
+              {{#if this.inCart}}
+              <span class="btn btn-outline-success rounded-pill w-100 disabled">
+                <i class="bi bi-check2-circle me-2"></i> Ya agregado
+              </span>
+              {{else}}
+              <form action="/client/catalog/{{this.commerceId}}/cart/add/{{this._id}}" method="POST">
+                <input type="hidden" name="returnTo" value="{{../../currentUrl}}">
+                <button type="submit" class="btn btn-dark rounded-pill w-100 fw-bold">
+                  <i class="bi bi-plus-circle me-2"></i> Agregar al pedido
+                </button>
+              </form>
+              {{/if}}
+            </article>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+      {{/each}}
+    </div>
+    {{else}}
+    <section class="client-empty">
+      <i class="bi bi-menu-app"></i>
+      <h2 class="h4 fw-bold mt-3">Este comercio aún no tiene productos disponibles</h2>
+      <p class="client-muted mb-0">Cuando el comercio publique categorías y productos los verás aquí.</p>
+    </section>
+    {{/if}}
+  </div>
+
+  <div class="col-lg-4">
+    <aside class="client-summary position-sticky" style="top: 110px;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h2 class="h4 fw-bold mb-1">Mi pedido</h2>
+          <p class="client-muted mb-0">{{cart.itemCount}} producto(s)</p>
+        </div>
+        <span class="client-soft-badge client-accent-badge">RD$ {{cart.formattedSubtotal}}</span>
+      </div>
+
+      {{#if cart.hasItems}}
+      <div class="client-cart-list mb-4">
+        {{#each cart.items}}
+        <div class="client-cart-item">
+          <img src="{{this.image}}" alt="{{this.name}}" class="client-cart-thumb">
+          <div class="flex-grow-1">
+            <div class="fw-bold">{{this.name}}</div>
+            <small class="client-muted">RD$ {{this.formattedPrice}}</small>
+          </div>
+          <form action="/client/catalog/{{../cart.commerceId}}/cart/remove/{{this.productId}}" method="POST">
+            <input type="hidden" name="returnTo" value="{{../currentUrl}}">
+            <button type="submit" class="btn btn-outline-danger client-icon-button">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </form>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="client-summary-row">
+        <span class="client-muted">Subtotal</span>
+        <strong>RD$ {{cart.formattedSubtotal}}</strong>
+      </div>
+
+      <div class="d-grid gap-2 mt-4">
+        <a href="{{checkoutUrl}}" class="btn btn-warning rounded-pill fw-bold">
+          <i class="bi bi-arrow-right-circle me-2"></i> Continuar
+        </a>
+        <a href="{{backUrl}}" class="btn btn-outline-secondary rounded-pill">Seguir explorando comercios</a>
+      </div>
+      {{else}}
+      <div class="client-empty border-0 shadow-none px-0 pb-0">
+        <i class="bi bi-basket3"></i>
+        <h3 class="h5 fw-bold mt-3">Tu pedido está vacío</h3>
+        <p class="client-muted mb-0">Agrega productos del catálogo y aquí aparecerá el resumen de tu pedido.</p>
+      </div>
+      {{/if}}
+    </aside>
+  </div>
+</div>
