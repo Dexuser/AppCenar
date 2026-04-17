@@ -1,0 +1,42 @@
+<section class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+  <div>
+    <h1 class="client-section-title mb-1">Mis direcciones</h1>
+    <p class="client-muted mb-0">Crea, edita o elimina las direcciones que usarás al pedir.</p>
+  </div>
+  <a href="/client/addresses/create" class="btn btn-dark rounded-pill">
+    <i class="bi bi-plus-lg me-2"></i> Nueva dirección
+  </a>
+</section>
+
+{{#if hasAddresses}}
+<section class="row g-4">
+  {{#each addresses}}
+  <div class="col-12 col-md-6">
+    <article class="client-address-card p-4 h-100">
+      <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+        <div>
+          <h2 class="h4 fw-bold mb-1">{{this.label}}</h2>
+          <p class="client-muted mb-0">{{this.description}}</p>
+        </div>
+        <span class="client-soft-badge"><i class="bi bi-geo-alt"></i> Dirección</span>
+      </div>
+
+      <div class="client-page-actions mt-4">
+        <a href="/client/addresses/edit/{{this._id}}" class="btn btn-outline-primary rounded-pill">
+          <i class="bi bi-pencil-square me-2"></i> Editar
+        </a>
+        <a href="/client/addresses/delete/{{this._id}}" class="btn btn-outline-danger rounded-pill">
+          <i class="bi bi-trash3 me-2"></i> Eliminar
+        </a>
+      </div>
+    </article>
+  </div>
+  {{/each}}
+</section>
+{{else}}
+<section class="client-empty">
+  <i class="bi bi-geo-alt"></i>
+  <h2 class="h4 fw-bold mt-3">No tienes direcciones registradas</h2>
+  <p class="client-muted">Crea una dirección para poder completar un pedido desde el catálogo.</p>
+</section>
+{{/if}}

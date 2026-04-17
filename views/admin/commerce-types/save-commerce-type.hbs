@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="admin-card p-4 bg-white">
+                <h2 class="text-primary mb-4">
+                    {{#if editMode}} Editar {{else}} Crear {{/if}} Tipo de Comercio
+                </h2>
+
+                <form action="/admin/commerce-types/{{#if editMode}}edit{{else}}create{{/if}}" method="POST"
+                    enctype="multipart/form-data">
+
+                    {{#if editMode}}
+                    <input type="hidden" name="id" value="{{type._id}}">
+                    {{/if}}
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Nombre del Tipo</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                            value="{{#if editMode}}{{type.title}}{{/if}}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"
+                            required>{{#if editMode}}{{type.description}}{{/if}}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Icono del Tipo (Imagen)</label>
+                        {{#if editMode}}
+                        <div class="mb-2">
+                            <small class="text-muted d-block">Icono actual:</small>
+                            <img src="{{type.image}}" alt="Actual" class="admin-table-img my-2 shadow-sm">
+                        </div>
+                        {{/if}}
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" {{#unless
+                            editMode}}required{{/unless}}>
+                        <small class="text-muted fst-italic">Formatos permitidos: JPG, PNG, WEBP.</small>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/admin/commerce-types" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver atrás
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            {{#if editMode}} Guardar Cambios {{else}} Crear Tipo {{/if}}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

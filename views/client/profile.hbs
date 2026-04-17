@@ -1,0 +1,85 @@
+<section class="row justify-content-center">
+  <div class="col-lg-9 col-xl-8">
+    <div class="client-form-card">
+      <div class="row g-4 align-items-center mb-4">
+        <div class="col-md-4 text-center">
+          {{#if user.profilePicture}}
+          <img src="{{user.profilePicture}}" id="imgPreview" alt="Perfil" class="client-avatar-preview">
+          {{else}}
+          <div id="imgPreview" class="client-avatar-preview d-inline-flex align-items-center justify-content-center">
+            <i class="bi bi-person-fill fs-1 text-muted"></i>
+          </div>
+          {{/if}}
+        </div>
+        <div class="col-md-8">
+          <span class="client-eyebrow text-dark bg-light border mb-3">
+            <i class="bi bi-person-vcard"></i> Mi perfil
+          </span>
+          <h1 class="client-section-title mb-2">Actualiza tu información personal</h1>
+          <p class="client-muted mb-3">Puedes editar tu nombre, apellido, teléfono y tu foto de usuario.</p>
+          <label for="imageInput" class="btn btn-outline-secondary rounded-pill">
+            <i class="bi bi-camera me-2"></i> Cambiar foto
+          </label>
+        </div>
+      </div>
+
+      <form action="/client/profile" method="POST" enctype="multipart/form-data">
+        <input type="file" name="profilePicture" id="imageInput" class="d-none" accept="image/*"
+          onchange="previewImage(event)">
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Nombre</label>
+            <input type="text" name="firstName" value="{{user.firstName}}" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Apellido</label>
+            <input type="text" name="lastName" value="{{user.lastName}}" class="form-control" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-bold">Teléfono</label>
+            <input type="text" name="phone" value="{{user.phone}}" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="client-page-actions mt-4">
+          <a href="/client" class="btn btn-outline-secondary rounded-pill">
+            <i class="bi bi-arrow-left me-2"></i> Volver
+          </a>
+          <button type="submit" class="btn btn-warning rounded-pill fw-bold">
+            <i class="bi bi-cloud-arrow-up me-2"></i> Guardar cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{{#section 'scripts'}}
+<script>
+  function previewImage(event) {
+    const input = event.target;
+
+    if (!input.files || !input.files[0]) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const preview = document.getElementById("imgPreview");
+
+      if (preview.tagName === "IMG") {
+        preview.src = e.target.result;
+        return;
+      }
+
+      preview.style.backgroundImage = "url('" + e.target.result + "')";
+      preview.style.backgroundSize = "cover";
+      preview.style.backgroundPosition = "center";
+      preview.innerHTML = "";
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+{{/section}}

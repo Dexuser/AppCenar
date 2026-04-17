@@ -1,0 +1,82 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div>
+                    <h2 class="fw-bold mb-0">
+                        {{#if editMode}} Editar: {{product.name}} {{else}} Nuevo Producto {{/if}}
+                    </h2>
+                </div>
+                <a href="/commerce/products" class="btn btn-outline-secondary rounded-pill px-3">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    
+                    {{#if hasErrors}}
+                        <div class="alert alert-danger rounded-3 mb-4">
+                            <ul class="mb-0">
+                                {{#each errors}}<li>{{this}}</li>{{/each}}
+                            </ul>
+                        </div>
+                    {{/if}}
+
+                    <form action="{{#if editMode}}/commerce/products/edit/{{product._id}}{{else}}/commerce/products/create{{/if}}" 
+                          method="POST" 
+                          enctype="multipart/form-data">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold small text-uppercase">Nombre del Producto *</label>
+                                <input type="text" name="name" class="form-control" value="{{product.name}}" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold small text-uppercase">Categoría *</label>
+                                <select name="categoryId" class="form-select" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    {{#each categories}}
+                                        <option value="{{this._id}}" {{#if (eq ../product.categoryId this._id)}}selected{{/if}}>
+                                            {{this.name}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <label class="form-label fw-bold small text-uppercase">Descripción *</label>
+                                <textarea name="description" class="form-control" rows="3" required>{{product.description}}</textarea>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold small text-uppercase">Precio (RD$) *</label>
+                                <input type="number" name="price" step="0.01" class="form-control" value="{{product.price}}" required>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold small text-uppercase">
+                                    Foto del Producto {{#unless editMode}}*{{/unless}}
+                                </label>
+                                <input type="file" name="image" class="form-control" {{#unless editMode}}required{{/unless}}>
+                                {{#if editMode}}
+                                    <div class="mt-2">
+                                        <small class="text-muted">Imagen actual:</small><br>
+                                        <img src="{{product.image}}" class="rounded-3 mt-1" style="width: 80px;">
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                {{#if editMode}}Guardar Cambios{{else}}Crear Producto{{/if}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

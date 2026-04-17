@@ -1,0 +1,127 @@
+/* public/assets/css/site/commerce.css */
+
+:root {
+    --commerce-primary: #2c3e50;
+    --commerce-accent: #e67e22;
+    /* Naranja para botones de acción */
+    --commerce-bg: #f8f9fa;
+}
+
+body {
+    background-color: var(--commerce-bg);
+}
+
+/* Estilo para los contenedores de formularios */
+.profile-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    padding: 2rem;
+}
+
+/* Preview del Logo Circular */
+.logo-preview-container {
+    width: 120px;
+    height: 120px;
+    margin: -60px auto 20px;
+    border-radius: 50%;
+    background: white;
+    padding: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.logo-preview-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Estilo de los inputs */
+.form-control-commerce {
+    border: 2px solid #eee;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: all 0.3s;
+}
+
+.form-control-commerce:focus {
+    border-color: var(--commerce-accent);
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.1);
+}
+
+.form-label-custom {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+/* Botones con personalidad */
+.btn-save-commerce {
+    background-color: var(--commerce-accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-save-commerce:hover {
+    background-color: #d35400;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+}
+
+.btn-back-commerce {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: bold;
+}
+
+.btn-back-modern {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 8px 16px;
+    color: #333;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-back-modern:hover {
+    background: #fff;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    color: #dc3545;
+    /* Color rojo de tu marca */
+}
+
+/* commerce.css */
+.card {
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.btn-primary,
+.btn-danger {
+    border-radius: 10px;
+    font-weight: 600;
+}

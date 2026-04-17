@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/assets/css/lib/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/assets/css/site/main.css" />
+  <link rel="stylesheet" href="/assets/css/site/admin.css" />
+
+  {{{_sections.styles}}}
+  <title>{{pageTitle}} | Admin Panel</title>
+</head>
+
+<body class="bg-light">
+
+  <header>
+    <nav class="navbar navbar-expand-xl navbar-dark navbar-admin shadow">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/admin">
+          <i class="bi bi-shield-lock-fill text-warning me-1"></i>App<span class="text-info">Cenar</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
+          aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNavbar">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                <i class="bi bi-house-door-fill icon-home"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/clients">
+                <i class="bi bi-people-fill icon-clients"></i> Clientes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/delivery">
+                <i class="bi bi-bicycle icon-delivery"></i> Delivery
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/commerces">
+                <i class="bi bi-shop icon-commerce"></i> Comercios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/config">
+                <i class="bi bi-gear-fill icon-config"></i> Configuración
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/admins-management">
+                <i class="bi bi-person-badge-fill icon-admin"></i> Administradores
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/commerce-types">
+                <i class="bi bi-tags-fill icon-type"></i> Tipos de Comercios
+              </a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center">
+            <span class="navbar-text me-3 small text-white">
+              {{#if isAuthenticated}} {{!-- Usamos la variable que defines en el login --}}
+              <i class="bi bi-person-circle me-1 text-info"></i>
+              Admin: <strong>{{user.firstName}} {{user.lastName}}</strong>
+              {{/if}}
+            </span>
+
+            <form action="/user/logout" method="GET" class="m-0">
+              <button type="submit" class="btn btn-logout btn-sm">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container-fluid py-4 px-lg-5">
+    {{!-- Alertas del sistema --}}
+    {{#if hasErrors}}
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
+        <ul class="mb-0">
+          {{#each errors}}<li>{{this}}</li>{{/each}}
+        </ul>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {{/if}}
+
+    {{#if hasSuccess}}
+    <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-check-circle-fill fs-4 me-2"></i>
+        <ul class="mb-0 list-unstyled">
+          {{#each success}}<li>{{this}}</li>{{/each}}
+        </ul>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {{/if}}
+
+    {{!-- Contenido dinámico --}}
+    <div class="animate__animated animate__fadeIn">
+      {{{body}}}
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="/assets/js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {{{_sections.scripts}}}
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<section class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+  <div>
+    <a href="/client" class="btn btn-outline-secondary rounded-pill mb-3">
+      <i class="bi bi-arrow-left me-2"></i> Volver al home
+    </a>
+    <h1 class="client-section-title mb-1">{{commerceType.title}}</h1>
+    <p class="client-muted mb-0">{{commerceType.description}}</p>
+  </div>
+  <span class="client-soft-badge">
+    {{commerceCount}} resultado(s) visibles de {{totalCount}}
+  </span>
+</section>
+
+<section class="client-panel mb-4">
+  <form action="/client/commerces/{{commerceType._id}}" method="GET" class="row g-3 align-items-end">
+    <div class="col-md-9">
+      <label class="form-label fw-bold">Buscar comercio por nombre</label>
+      <input type="text" name="search" value="{{search}}" class="form-control"
+        placeholder="Ejemplo: Burger, Pizza, Farmacia...">
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-dark w-100 rounded-pill fw-bold">
+        <i class="bi bi-search me-2"></i> Buscar
+      </button>
+    </div>
+  </form>
+</section>
+
+{{#if hasCommerces}}
+<section class="row g-4">
+  {{#each commerces}}
+  <div class="col-12 col-lg-6">
+    <article class="client-commerce-card p-3 h-100">
+      <div class="d-flex flex-column flex-md-row gap-3 h-100">
+
+        <a href="{{#if this.isOpen}}/client/catalog/{{this._id}}{{else}}#{{/if}}"
+          class="text-decoration-none text-dark flex-grow-1 {{#unless this.isOpen}}disabled-link{{/unless}}">
+          <img src="{{this.commerceLogo}}" alt="{{this.commerceName}}" class="client-commerce-media mb-3">
+          <h2 class="h4 fw-bold mb-1">{{this.commerceName}}</h2>
+          <p class="client-muted mb-3">Horario: {{this.openTime}} - {{this.closeTime}}</p>
+
+          {{#if this.isOpen}}
+          <span class="client-soft-badge client-accent-badge">
+            <i class="bi bi-unlock-fill"></i> Abierto - Ver catálogo
+          </span>
+          {{else}}
+          <span class="client-soft-badge bg-secondary text-white">
+            <i class="bi bi-lock-fill"></i> Cerrado
+          </span>
+          {{/if}}
+        </a>
+
+        <form action="/client/favorites/toggle/{{this._id}}" method="POST" class="align-self-start">
+          <input type="hidden" name="returnTo" value="{{../currentUrl}}">
+          <button type="submit"
+            class="btn {{#if this.isFavorite}}btn-danger{{else}}btn-outline-danger{{/if}} client-icon-button">
+            <i class="bi {{#if this.isFavorite}}bi-heart-fill{{else}}bi-heart{{/if}}"></i>
+          </button>
+        </form>
+
+      </div>
+    </article>
+  </div>
+  {{/each}}
+</section>
+{{else}}
+<section class="client-empty">
+  <i class="bi bi-shop-window"></i>
+  <h2 class="h4 fw-bold mt-3">No encontramos comercios con esos criterios</h2>
+  <p class="client-muted">Prueba con otro nombre o vuelve a la selección de categorías para explorar más opciones.</p>
+</section>
+{{/if}}
