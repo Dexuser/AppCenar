@@ -11,36 +11,52 @@
       <form action="{{#if editMode}}/client/addresses/edit/{{address._id}}{{else}}/client/addresses/create{{/if}}"
         method="POST">
         <div class="row g-4">
+
           <div class="col-12">
             <label class="form-label fw-bold">Nombre de la dirección</label>
-            <input type="text" name="label" value="{{address.label}}" class="form-control" required>
+            <input type="text" name="label" value="{{address.label}}" class="form-control"
+              placeholder="Ej: Mi Casa, Oficina, Gimnasio..." required>
           </div>
+
           <div class="col-12">
-            <label class="form-label fw-bold">Descripción</label>
-            <textarea name="description" rows="3" class="form-control" required>{{address.description}}</textarea>
+            <label class="form-label fw-bold">Descripción completa</label>
+            <textarea name="description" rows="3" class="form-control" placeholder="Escribe la dirección detallada"
+              required>{{address.description}}</textarea>
+            <div class="form-text mt-2">
+              <i class="bi bi-info-circle me-1"></i> Esta es la dirección que verá el repartidor.
+            </div>
           </div>
+
           <div class="col-12 col-md-6">
-            <label class="form-label fw-bold">Calle / dirección</label>
-            <input type="text" name="street" value="{{address.street}}" class="form-control">
+            <label class="form-label fw-bold">Calle / Número</label>
+            <input type="text" name="street" value="{{address.street}}" class="form-control"
+              placeholder="Ej: Calle 16 de agosto #45">
           </div>
+
           <div class="col-12 col-md-6">
-            <label class="form-label fw-bold">Sector</label>
-            <input type="text" name="sector" value="{{address.sector}}" class="form-control">
+            <label class="form-label fw-bold">Sector / Urbanización</label>
+            <input type="text" name="sector" value="{{address.sector}}" class="form-control"
+              placeholder="Ej: Ensanche Naco">
           </div>
+
           <div class="col-12 col-md-6">
             <label class="form-label fw-bold">Ciudad</label>
-            <input type="text" name="city" value="{{address.city}}" class="form-control">
+            <input type="text" name="city" value="{{address.city}}" class="form-control"
+              placeholder="Ej: Santo Domingo">
           </div>
+
           <div class="col-12 col-md-6">
-            <label class="form-label fw-bold">Referencia</label>
-            <input type="text" name="reference" value="{{address.reference}}" class="form-control">
+            <label class="form-label fw-bold">Referencia (Opcional)</label>
+            <input type="text" name="reference" value="{{address.reference}}" class="form-control"
+              placeholder="Ej: Frente al parque central, portón blanco">
           </div>
+
         </div>
 
         <div class="client-page-actions mt-4">
           <a href="/client/addresses" class="btn btn-outline-secondary rounded-pill">Cancelar</a>
           <button type="submit" class="btn btn-warning rounded-pill fw-bold">
-            <i class="bi bi-save me-2"></i> {{#if editMode}}Guardar dirección{{else}}Crear dirección{{/if}}
+            <i class="bi bi-save me-2"></i> {{#if editMode}}Guardar cambios{{else}}Crear dirección{{/if}}
           </button>
         </div>
       </form>

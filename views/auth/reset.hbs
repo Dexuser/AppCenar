@@ -1,52 +1,52 @@
-<div class="d-flex justify-content-center">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6 col-lg-4">
+    <div class="card shadow border-0 rounded-4">
+      <div class="card-header bg-success text-white py-3">
+        <h5 class="text-center mb-0 fw-bold">
+          <i class="bi bi-person-bounding-box"></i>
+          Restablecer Contraseña
+        </h5>
+      </div>
 
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <div class="card-header bg-success text-light"><h5 class="text-center"><i
-            class="bi bi-person-bounding-box"
-          ></i>
-          Reset password</h5></div>
-      <div class="card-body">
+      <div class="card-body p-4">
         <form action="/user/reset" method="POST">
           <input type="hidden" name="PasswordToken" value="{{passwordToken}}" />
           <input type="hidden" name="UserId" value="{{userId}}" />
 
           <div class="mb-3">
-            <label for="password-input" class="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              class="form-control"
-              id="password-input"
-              name="Password"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="confirm-password-input" class="form-label">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              class="form-control"
-              id="confirm-password-input"
-              name="ConfirmPassword"
-            />
+            <label for="password-input" class="form-label fw-bold">Nueva Contraseña</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0">
+                <i class="bi bi-key text-muted"></i>
+              </span>
+              <input type="password" class="form-control border-start-0 ps-0" id="password-input" name="Password"
+                placeholder="Mínimo 8 caracteres" required />
+            </div>
           </div>
 
-          <div>
-            <button type="submit" class="btn btn-primary float-end"><i
-                class="bi bi-floppy"
-              ></i>
-              Save</button>
-            <a href="/" class="btn btn-warning float-end me-2"><i
-                class="bi bi-arrow-left"
-              ></i>
-              Back to login</a>
+          <div class="mb-4">
+            <label for="confirm-password-input" class="form-label fw-bold">Confirmar Contraseña</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0">
+                <i class="bi bi-shield-check text-muted"></i>
+              </span>
+              <input type="password" class="form-control border-start-0 ps-0" id="confirm-password-input"
+                name="ConfirmPassword" placeholder="Repite tu contraseña" required />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center border-top pt-3">
+            <a href="/" class="btn btn-outline-secondary rounded-pill px-3">
+              <i class="bi bi-arrow-left"></i>
+              Cancelar
+            </a>
+
+            <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+              Guardar <i class="bi bi-floppy ms-1"></i>
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-
 </div>

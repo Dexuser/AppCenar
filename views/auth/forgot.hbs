@@ -1,37 +1,42 @@
-<div class="d-flex justify-content-center">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6 col-lg-4">
+    <div class="card shadow border-0 rounded-4">
+      <div class="card-header bg-warning text-dark py-3">
+        <h5 class="text-center mb-0 fw-bold">
+          <i class="bi bi-person-exclamation"></i>
+          ¿Olvidaste tu contraseña?
+        </h5>
+      </div>
 
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <div class="card-header bg-success text-light"><h5 class="text-center"><i
-            class="bi bi-person-exclamation"
-          ></i>
-          Forgot password</h5></div>
-      <div class="card-body">
+      <div class="card-body p-4">
+        <p class="text-muted small text-center mb-4">
+          Introduce tu correo electrónico y te enviaremos un enlace para que puedas restablecer tu contraseña.
+        </p>
+
         <form action="/user/forgot" method="POST">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              required="required"
-              name="Email"
-            />
+          <div class="mb-4">
+            <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0">
+                <i class="bi bi-envelope text-muted"></i>
+              </span>
+              <input type="email" class="form-control border-start-0 ps-0" id="email" placeholder="correo@ejemplo.com"
+                required name="Email" />
+            </div>
           </div>
 
-          <div>
-            <button type="submit" class="btn btn-primary float-end"><i
-                class="bi bi-send"
-              ></i>
-              Save</button>
-            <a href="/" class="btn btn-warning float-end me-2"><i
-                class="bi bi-arrow-left"
-              ></i>
-              Back to login</a>
+          <div class="d-flex justify-content-between align-items-center border-top pt-3">
+            <a href="/" class="btn btn-outline-secondary rounded-pill px-3">
+              <i class="bi bi-arrow-left"></i>
+              Volver al login
+            </a>
+
+            <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">
+              Enviar <i class="bi bi-send ms-1"></i>
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-
 </div>

@@ -1,147 +1,95 @@
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-7">
-    <div class="card shadow">
-      <div class="card-header bg-success text-white">
+    <div class="card shadow border-0 rounded-4">
+      <div class="card-header bg-success text-white py-3">
         <h4 class="mb-0 text-center">
           <i class="bi bi-shop"></i>
-          Register Commerce
+          Registro de Comercio
         </h4>
       </div>
 
-      <div class="card-body">
+      <div class="card-body p-4">
 
         <form action="/user/register-commerce" method="POST" enctype="multipart/form-data">
 
-          <!-- Commerce Name -->
           <div class="mb-3">
-            <label for="commerceName-input" class="form-label">Commerce Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="commerceName-input"
-              name="commerceName"
-              required
-            />
+            <label for="commerceName-input" class="form-label fw-bold">Nombre del Comercio</label>
+            <input type="text" class="form-control" id="commerceName-input" name="commerceName"
+              placeholder="Ej: Pizzería La Romana" required />
           </div>
 
-          <!-- Phone and Email -->
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="phone-input" class="form-label">Phone Number</label>
-              <input
-                type="text"
-                class="form-control"
-                id="phone-input"
-                name="phone"
-                required
-              />
+              <label for="phone-input" class="form-label fw-bold">Número de Teléfono</label>
+              <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Ej: 809-555-5555"
+                required />
             </div>
 
-           <div class="col-md-6 mb-3">
-              <label for="email-input" class="form-label">Email Address</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email-input"
-                name="email"
-                required
-              />
+            <div class="col-md-6 mb-3">
+              <label for="email-input" class="form-label fw-bold">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email-input" name="email" placeholder="negocio@ejemplo.com"
+                required />
             </div>
           </div>
 
-          <!-- Logo -->
           <div class="mb-3">
-            <label for="logo-input" class="form-label">Commerce Logo</label>
-            <input
-              type="file"
-              class="form-control"
-              id="logo-input"
-              name="logo"
-              accept="image/png, image/jpeg, image/jpg"
-              required
-            />
-            <small class="text-muted">Allowed formats: JPG, JPEG, PNG</small>
+            <label for="logo-input" class="form-label fw-bold">Logo del Comercio</label>
+            <input type="file" class="form-control" id="logo-input" name="logo"
+              accept="image/png, image/jpeg, image/jpg" required />
+            <small class="text-muted">Formatos permitidos: JPG, JPEG, PNG</small>
           </div>
 
-          <!-- Opening and Closing Time -->
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="openingHour-input" class="form-label">Opening Hour</label>
-              <input
-                type="time"
-                class="form-control"
-                id="openingHour-input"
-                name="openTime"
-                required
-              />
+              <label for="openingHour-input" class="form-label fw-bold">Hora de Apertura</label>
+              <input type="time" class="form-control" id="openingHour-input" name="openTime" required />
             </div>
 
             <div class="col-md-6 mb-3">
-              <label for="closingHour-input" class="form-label">Closing Hour</label>
-              <input
-                type="time"
-                class="form-control"
-                id="closingHour-input"
-                name="closeTime"
-                required
-              />
+              <label for="closingHour-input" class="form-label fw-bold">Hora de Cierre</label>
+              <input type="time" class="form-control" id="closingHour-input" name="closeTime" required />
             </div>
           </div>
 
-          <!-- Commerce Type -->
           <div class="mb-3">
-            <label for="commerceType-input" class="form-label">Commerce Type</label>
+            <label for="commerceType-input" class="form-label fw-bold">Tipo de Comercio</label>
             <select class="form-select" id="commerceType-input" name="commerceTypeId" required>
-              <option value="">Select a commerce type</option>
+              <option value="">Seleccione un tipo de comercio</option>
               {{#each commerceTypes}}
-                <option value="{{this._id}}" {{#if (Equals ../commerceTypeId this._id)}}selected{{/if}}>
-                  {{this.title}}
-                </option>
+              <option value="{{this._id}}" {{#if (Equals ../commerceTypeId this._id)}}selected{{/if}}>
+                {{this.title}}
+              </option>
               {{/each}}
             </select>
           </div>
 
-          <!-- Passwords -->
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="password-input" class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password-input"
-                name="password"
-                minlength="8"
-                required
-              />
-              <small class="text-muted">Minimum 8 characters</small>
+              <label for="password-input" class="form-label fw-bold">Contraseña</label>
+              <input type="password" class="form-control" id="password-input" name="password" minlength="8"
+                placeholder="••••••••" required />
+              <small class="text-muted">Mínimo 8 caracteres</small>
             </div>
 
             <div class="col-md-6 mb-3">
-              <label for="confirmPassword-input" class="form-label">Confirm Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="confirmPassword-input"
-                name="confirmPassword"
-                minlength="8"
-                required
-              />
+              <label for="confirmPassword-input" class="form-label fw-bold">Confirmar Contraseña</label>
+              <input type="password" class="form-control" id="confirmPassword-input" name="confirmPassword"
+                minlength="8" placeholder="••••••••" required />
             </div>
-          </div> 
-
-          <!-- Info -->
-          <div class="alert alert-info">
-            <i class="bi bi-info-circle"></i>
-            Once registered, your commerce account will remain inactive until you confirm your email through the activation link.
           </div>
 
-          <!-- Buttons -->
-          <div class="d-flex justify-content-end gap-2">
-            <a href="/user/register-select" class="btn btn-warning">
-              <i class="bi bi-arrow-left"></i> Back
+          <div class="alert alert-info border-0 shadow-sm rounded-3">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            Una vez registrado, la cuenta de su comercio permanecerá inactiva hasta que confirme su correo electrónico a
+            través del enlace de activación.
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+            <a href="/user/register-select" class="btn btn-warning rounded-pill px-4 fw-bold">
+              <i class="bi bi-arrow-left"></i> Atrás
             </a>
-            <button type="submit" class="btn btn-success">
-              <i class="bi bi-shop"></i> Register Commerce
+            <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold">
+              <i class="bi bi-shop"></i> Registrar Comercio
             </button>
           </div>
 

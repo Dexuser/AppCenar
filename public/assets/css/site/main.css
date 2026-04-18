@@ -1,5 +1,59 @@
-.img-size{
+/* main.css */
+
+:root {
+    --primary-color: #0d6efd;
+    --primary-dark: #0a58ca;
+    --bg-light: #f8f9fa;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Navbar con degradado profesional */
+.bg-primary-gradient {
+    background: linear-gradient(90deg, #0d6efd 0%, #0046af 100%) !important;
+}
+
+.navbar {
+    padding: 0.8rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+/* Ajuste para que las imágenes de productos no se deformen */
+.img-size {
     width: 100%;
     height: 150px;
     object-fit: contain;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+/* Animación suave para alertas */
+.alert {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Contenedor principal */
+.content-wrapper {
+    min-height: 70vh;
 }

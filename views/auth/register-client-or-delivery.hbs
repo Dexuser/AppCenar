@@ -1,127 +1,86 @@
 <div class="row justify-content-center">
   <div class="col-12 col-md-8 col-lg-7">
-    <div class="card shadow">
-      <div class="card-header bg-primary text-white">
+    <div class="card shadow border-0 rounded-4">
+      <div class="card-header bg-primary text-white py-3">
         <h4 class="mb-0 text-center">
           <i class="bi bi-person-plus-fill"></i>
-          Register User
+          Registro de Usuario
         </h4>
       </div>
 
-      <div class="card-body">
+      <div class="card-body p-4">
 
         <form action="/user/register-user" method="POST" enctype="multipart/form-data">
 
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="name-input" class="form-label">
-                First Name
+              <label for="name-input" class="form-label fw-bold">
+                Nombre
               </label>
-              <input
-                type="text"
-                class="form-control"
-                id="name-input"
-                name="firstName"
-                value="{{firstName}}"
-                required
-              />
+              <input type="text" class="form-control" id="name-input" name="firstName" value="{{firstName}}"
+                placeholder="Ej: Juan" required />
             </div>
 
             <div class="col-md-6 mb-3">
-              <label for="lastName-input" class="form-label">
-                Last Name
+              <label for="lastName-input" class="form-label fw-bold">
+                Apellido
               </label>
-              <input
-                type="text"
-                class="form-control"
-                id="lastName-input"
-                name="lastName"
-                value="{{lastName}}"
-                required
-              />
+              <input type="text" class="form-control" id="lastName-input" name="lastName" value="{{lastName}}"
+                placeholder="Ej: Pérez" required />
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="phone-input" class="form-label">
-                Phone Number
+              <label for="phone-input" class="form-label fw-bold">
+                Número de Teléfono
               </label>
-              <input
-                type="text"
-                class="form-control"
-                id="phone-input"
-                name="phone"
-                value="{{phone}}"
-                required
-              />
+              <input type="text" class="form-control" id="phone-input" name="phone" value="{{phone}}"
+                placeholder="Ej: 809-555-5555" required />
             </div>
 
             <div class="col-md-6 mb-3">
-              <label for="email-input" class="form-label">
-                Email Address
+              <label for="email-input" class="form-label fw-bold">
+                Correo Electrónico
               </label>
-              <input
-                type="email"
-                class="form-control"
-                id="email-input"
-                name="email"
-                value="{{email}}"
-                required
-              />
+              <input type="email" class="form-control" id="email-input" name="email" value="{{email}}"
+                placeholder="correo@ejemplo.com" required />
             </div>
           </div>
 
           <div class="mb-3">
-            <label for="profilePicture-input" class="form-label">
-              Profile Picture
+            <label for="profilePicture-input" class="form-label fw-bold">
+              Foto de Perfil
             </label>
-            <input
-              type="file"
-              class="form-control"
-              id="profilePicture-input"
-              name="profilePicture"
-              accept="image/png, image/jpeg, image/jpg"
-              required
-            />
+            <input type="file" class="form-control" id="profilePicture-input" name="profilePicture"
+              accept="image/png, image/jpeg, image/jpg" required />
             <small class="text-muted">
-              Allowed formats: JPG, JPEG and PNG
+              Formatos permitidos: JPG, JPEG y PNG
             </small>
           </div>
 
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="username-input" class="form-label">
-                Username
+              <label for="username-input" class="form-label fw-bold">
+                Nombre de Usuario
               </label>
-              <input
-                type="text"
-                class="form-control"
-                id="username-input"
-                name="username"
-                value="{{username}}"
-                required
-              />
+              <input type="text" class="form-control" id="username-input" name="username" value="{{username}}"
+                placeholder="Ej: juanperez01" required />
             </div>
 
             <div class="col-md-6 mb-3">
-              <label for="role-input" class="form-label">
-                Register As
+              <label for="role-input" class="form-label fw-bold">
+                Registrarse como
               </label>
-              <select
-                class="form-select"
-                id="role-input"
-                name="role"
-                required
-              >
-                <option value="">Select a role</option>
+              <select class="form-select" id="role-input" name="role" required>
+                <option value="">Seleccione un rol</option>
 
-                <option value="client" {{#if (Equals role "client")}}selected{{/if}}>
-                  Client
+                <option value="client" {{#if (Equals role "client" )}}selected{{/if}}>
+                  Cliente
                 </option>
 
-                <option value="delivery" {{#if (Equals role "delivery")}}selected{{/if}}>
-                  Delivery
+                <option value="delivery" {{#if (Equals role "delivery" )}}selected{{/if}}>
+                  Repartidor
                 </option>
               </select>
             </div>
@@ -129,51 +88,40 @@
 
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="password-input" class="form-label">
-                Password
+              <label for="password-input" class="form-label fw-bold">
+                Contraseña
               </label>
-              <input
-                type="password"
-                class="form-control"
-                id="password-input"
-                name="password"
-                minlength="8"
-                required
-              />
+              <input type="password" class="form-control" id="password-input" name="password" minlength="8"
+                placeholder="••••••••" required />
               <small class="text-muted">
-                Minimum 8 characters
+                Mínimo 8 caracteres
               </small>
             </div>
 
             <div class="col-md-6 mb-3">
-              <label for="confirm-password-input" class="form-label">
-                Confirm Password
+              <label for="confirm-password-input" class="form-label fw-bold">
+                Confirmar Contraseña
               </label>
-              <input
-                type="password"
-                class="form-control"
-                id="confirm-password-input"
-                name="confirmPassword"
-                minlength="8"
-                required
-              />
+              <input type="password" class="form-control" id="confirm-password-input" name="confirmPassword"
+                minlength="8" placeholder="••••••••" required />
             </div>
           </div>
 
-          <div class="alert alert-info">
-            <i class="bi bi-info-circle"></i>
-            Once registered, your account will remain inactive until you confirm your email through the activation link that will be sent to your inbox.
+          <div class="alert alert-info border-0 shadow-sm rounded-3">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            Una vez registrado, su cuenta permanecerá inactiva hasta que confirme su correo electrónico a través del
+            enlace de activación que se enviará a su bandeja de entrada.
           </div>
 
-          <div class="d-flex justify-content-end gap-2">
-            <a href="/user/register-select" class="btn btn-warning">
+          <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+            <a href="/user/register-select" class="btn btn-warning rounded-pill px-4 fw-bold">
               <i class="bi bi-arrow-left"></i>
-              Back
+              Atrás
             </a>
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">
               <i class="bi bi-person-check"></i>
-              Register
+              Registrarse
             </button>
           </div>
         </form>

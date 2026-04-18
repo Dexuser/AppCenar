@@ -1,0 +1,34 @@
+/* /assets/css/site/login.css */
+
+.login-card {
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: none;
+    background-color: #ffffff;
+}
+
+.login-header {
+    background-color: #212529;
+    /* Color de tu navbar */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Etiquetas flotantes modernas */
+.form-floating>label {
+    padding-left: 1.25rem;
+}
+
+/* Botones con mejor diseño */
+.btn-login {
+    background-color: #0d6efd;
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+}
+
+.btn-login:hover {
+    background-color: #0b5ed7;
+    color: white;
+}
