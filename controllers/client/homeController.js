@@ -92,7 +92,14 @@ export async function getCommerces(req, res) {
         const [closeH, closeM] = c.closeTime.split(":").map(Number);
         const openMinutes = openH * 60 + openM;
         const closeMinutes = closeH * 60 + closeM;
-        isOpen = currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
+
+        if (openMinutes < closeMinutes) {
+          // Misma jornada: ej. 08:00 - 21:00
+          isOpen = currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
+        } else {
+          // Cruza medianoche: ej. 22:00 - 02:00
+          isOpen = currentMinutes >= openMinutes || currentMinutes <= closeMinutes;
+        }
       }
 
       return {
