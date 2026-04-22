@@ -82,31 +82,11 @@ export async function getCommerces(req, res) {
       User.countDocuments(filter),
     ]);
 
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
     const commerceCards = commerces.map((c) => {
-      let isOpen = false;
-      if (c.openTime && c.closeTime) {
-        const [openH, openM] = c.openTime.split(":").map(Number);
-        const [closeH, closeM] = c.closeTime.split(":").map(Number);
-        const openMinutes = openH * 60 + openM;
-        const closeMinutes = closeH * 60 + closeM;
-
-        if (openMinutes < closeMinutes) {
-          // Misma jornada: ej. 08:00 - 21:00
-          isOpen = currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
-        } else {
-          // Cruza medianoche: ej. 22:00 - 02:00
-          isOpen = currentMinutes >= openMinutes || currentMinutes <= closeMinutes;
-        }
-      }
-
       return {
         ...c,
         commerceLogo: normalizeAssetPath(c.commerceLogo),
         isFavorite: favoriteIds.has(c._id.toString()),
-        isOpen,
       };
     });
 
