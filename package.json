@@ -7,7 +7,7 @@
     "start": "nodemon app.js",
     "qa": "cross-env NODE_ENV=qa nodemon app.js",
     "seed": "node seeds/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "cross-env NODE_ENV=production node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.4",
     "bcrypt": "^6.0.0",
     "connect-flash": "^0.1.1",
     "cross-env": "^7.0.3",

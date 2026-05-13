@@ -33,21 +33,11 @@
     <article class="client-commerce-card p-3 h-100">
       <div class="d-flex flex-column flex-md-row gap-3 h-100">
 
-        <a href="{{#if this.isOpen}}/client/catalog/{{this._id}}{{else}}#{{/if}}"
-          class="text-decoration-none text-dark flex-grow-1 {{#unless this.isOpen}}disabled-link{{/unless}}">
+        <a href="/client/catalog/{{this._id}}"
+          class="text-decoration-none text-dark flex-grow-1">
           <img src="{{this.commerceLogo}}" alt="{{this.commerceName}}" class="client-commerce-media mb-3">
           <h2 class="h4 fw-bold mb-1">{{this.commerceName}}</h2>
           <p class="client-muted mb-3">Horario: {{this.openTime}} - {{this.closeTime}}</p>
-
-          {{#if this.isOpen}}
-          <span class="client-soft-badge client-accent-badge">
-            <i class="bi bi-unlock-fill"></i> Abierto - Ver catálogo
-          </span>
-          {{else}}
-          <span class="client-soft-badge bg-secondary text-white">
-            <i class="bi bi-lock-fill"></i> Cerrado
-          </span>
-          {{/if}}
         </a>
 
         <form action="/client/favorites/toggle/{{this._id}}" method="POST" class="align-self-start">

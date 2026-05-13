@@ -28,7 +28,7 @@ export const validateProfile = [
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.render("commerce/profile", {
+            return res.render("commerce/profile/profile", {
                 layout: "commerce-layout",
                 pageTitle: "Mi Perfil",
                 user: req.body,
