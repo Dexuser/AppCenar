@@ -1,5 +1,5 @@
 # AppCenar - Enterprise Food Delivery Ecosystem 🍔
----
+
 **AppCenar** es una solución robusta de grado empresarial para la gestión de servicios de entrega de alimentos (Delivery). Esta plataforma Full-Stack, construida sobre **Node.js** y **Express**, resuelve la complejidad de conectar cuatro actores clave (Clientes, Comercios, Repartidores y Administradores) mediante una arquitectura de software avanzada que prioriza la seguridad, la persistencia de datos y el control de acceso granular.
 
 ⚙️ Core Business Logic & Roles
@@ -54,7 +54,6 @@ El proyecto destaca por una implementación técnica de alto nivel, utilizando p
   <img src="screenshots/PerfilUsuario.png">
 
 ## 👨‍💻 Lead Developers
----
 * **Yohansel Mieses** – miesesyohansel@gmail.com
 * **Luis Angel Ureña Perdomo** - 20241631@itla.edu.do
 * **Johan guillen** - 20240108@itla.edu.do
